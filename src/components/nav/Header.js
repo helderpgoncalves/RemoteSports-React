@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   function gitHub() {
-    window.open('http://www.github.com')
+    window.open('https://github.com/helderpgoncalves/RemoteSports')
   };
 
   return (
