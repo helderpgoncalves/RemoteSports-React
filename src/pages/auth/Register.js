@@ -21,7 +21,7 @@ const Register = () => {
       .sendSignInLinkToEmail(email, config)
       .then(function () {
         toast.success(
-          `🚀 Perfect! Now you must check the ${email} inbox to finalise your registration!.`,
+          `🚀 Perfect! Now you must check the ${email} inbox to finalise your registration!`,
           {
             position: "top-right",
             autoClose: 5000,
