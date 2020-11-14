@@ -1,7 +1,7 @@
 <h1 align="center">
-  <img src="src/assets/banner.png" alt="RemoteSports" width="200">
+  <img src="src/assets/banner.png" alt="RemoteSports">
   <br>
-  RemoteSports Documentation
+  RemoteSports
 </h1>
 
 <table>
@@ -43,8 +43,8 @@ If you'd like to request a new function, feel free to do so by opening an issue 
 
 ## Team
 
-[![Hélder Gonçalves](https://avatars2.githubusercontent.com/u/59267214?s=460&u=3a6111e055dfda341a602937a587c2b84418c28a&v=4)](https://github.com/iharsh234) | [![Hugo Pereira](https://avatars0.githubusercontent.com/u/61696448?s=460&v=4)](https://github.com/EvocativeAxisPt/)
+[![Hélder Gonçalves](https://avatars2.githubusercontent.com/u/59267214?s=460&u=3a6111e055dfda341a602937a587c2b84418c28a&v=4)](https://github.com/helderpgoncalves) | [![Hugo Pereira](https://avatars0.githubusercontent.com/u/61696448?s=460&v=4)](https://github.com/EvocativeAxisPt/)
 
 # [License](https://github.com/iharsh234/WebApp/blob/master/LICENSE.md)
 
-MIT © [Hélder Gonçalves](https://github.com/iharsh234)
+MIT © [Hélder Gonçalves](https://github.com/helderpgoncalves)
