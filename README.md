@@ -1,69 +1,50 @@
-# RemoteSports
+<h1 align="center">
+  <img src="src/assets/banner.png" alt="RemoteSports" width="200">
+  <br>
+  RemoteSports Documentation
+</h1>
 
+<table>
+<tr>
+<td>
+  WebApp Project for University Class with the goal of developing a Video Group Chat for Physical Education Online Classes using React, WebRTC, Firebase and others frameworks.
+</td>
+</tr>
+</table>
 
-## Available Scripts
+## [Usage](https://github.com/helderpgoncalves/RemoteSports) 
 
-In the project directory, you can run:
+### Development
+Want to contribute? Great!
 
-### `yarn start`
+To fix a bug or enhance an existing module, follow these steps:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Fork the repo
+- Create a new branch (`git checkout -b improve-feature`)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (`git commit -am 'Improve feature'`)
+- Push to the branch (`git push origin improve-feature`)
+- Create a Pull Request 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Bug / Feature Request
 
-### `yarn test`
+If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue [here](https://github.com/helderpgoncalves/RemoteSports/issues/new) by including your search query and the expected result.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you'd like to request a new function, feel free to do so by opening an issue [here](https://github.com/helderpgoncalves/RemoteSports/issues/new). Please include sample queries and their corresponding results.
 
-### `yarn build`
+## Built with 
+- [Node.js](https://nodejs.org/en/) - Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+- [ReactJS](https://reactjs.org/docs/getting-started.html) - An open-source, front end, JavaScript library for building user interfaces or UI components.
+- [Redux.js](https://redux.js.org/introduction/getting-started) - Redux is a predictable state container for JavaScript apps.
+- [WebRTC](https://webrtc.org) - An open framework for the web that enables Real-Time Communications (RTC) capabilities in the browser.
+- [Firebase](https://firebase.google.com/docs?gclid=Cj0KCQiAnb79BRDgARIsAOVbhRqybBO9UffXcBGkjreSnOcdPGiqvu3znI3LLfw3xwFH92ok4LUQkyQaAqmeEALw_wcB) - Firebase is a platform developed by Google for creating mobile and web applications.
+- [Bootstrap](http://getbootstrap.com/) - Extensive list of components and  Bundled Javascript plugins.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Team
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+[![Hélder Gonçalves](https://avatars2.githubusercontent.com/u/59267214?s=460&u=3a6111e055dfda341a602937a587c2b84418c28a&v=4)](https://github.com/iharsh234) | [![Hugo Pereira](https://avatars0.githubusercontent.com/u/61696448?s=460&v=4)](https://github.com/EvocativeAxisPt/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# [License](https://github.com/iharsh234/WebApp/blob/master/LICENSE.md)
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT © [Hélder Gonçalves](https://github.com/iharsh234)
