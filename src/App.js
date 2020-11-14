@@ -6,6 +6,9 @@ import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
 import Header from "./components/nav/Header";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   return (
     //Necessitamos de retornar os componentes
@@ -15,6 +18,7 @@ const App = () => {
     //É tipo uma <div>
     <>
       <Header />
+      <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
