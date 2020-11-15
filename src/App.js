@@ -7,6 +7,7 @@ import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
 import Header from "./components/nav/Header";
 import RegisterComplete from "./pages/auth/RegisterComplete";
+import MainPage from './pages/MainPage';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -47,6 +48,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/mainpage" component={MainPage} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route excat path="/register/complete/" component={RegisterComplete} />

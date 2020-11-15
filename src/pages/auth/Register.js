@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-
 import { auth } from "../../firebase";
-
 import { toast } from "react-toastify";
+import { Button } from "antd";
+import { UserAddOutlined } from "@ant-design/icons";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -10,9 +10,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
+      
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be in the authorized domains list in the Firebase Console.
       // process para aceder as variaveis env
+
       url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
       handleCodeInApp: true,
     };
@@ -67,10 +69,20 @@ const Register = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         autoFocus
-      />{" "}
-      <button type="submit" className="btn btn-raised">
-        Register
-      </button>
+        placeholder="Email"
+      />
+      <br />
+      <Button
+        onClick={handleSubmit}
+        type="primary"
+        className="mb-3"
+        shape="round"
+        block
+        icon={<UserAddOutlined />}
+        size="large"
+        disabled={!email}
+      >Login with Email/Password
+      </Button>
     </form>
   );
 

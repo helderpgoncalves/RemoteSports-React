@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-
-import { auth } from "../../firebase";
-
+import { auth, firestore } from "../../firebase";
 import { toast } from "react-toastify";
+import { Button } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -42,18 +42,37 @@ const RegisterComplete = ({ history }) => {
         await user.updatePassword(password);
         const idTokenResult = await user.getIdTokenResult();
 
+        toast.success(
+          `🤪 Excellent! You complete your registration! Welcome to RemoteSports!`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+/*
+        firestore.collection("users").add({
+          email: 
+
+        })
+*/
+
         // redux store - Ir para Diretorias Privadas
 
         // ---------------- TODO -------------------
 
         // redirecionar
-        history.push("/");
+        history.push("/mainpage");
       }
     } catch (error) {
       toast.error(`😥 ${error}`, {
         position: "top-right",
         autoClose: 5000,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -75,9 +94,18 @@ const RegisterComplete = ({ history }) => {
         placeholder="Password"
         autoFocus
       />
-      <button type="submit" className="btn btn-raised">
-        Complete Registration
-      </button>
+      <br/>
+      <Button 
+        onClick={handleSubmit}
+        type="primary"
+        className="mb-3"
+        shape="round"
+        block
+        icon={<CheckOutlined />}
+        size="large"
+      >
+        Finish your Registration
+      </Button>
     </form>
   );
 
