@@ -54,7 +54,7 @@ const RegisterComplete = ({ history }) => {
             progress: undefined,
           }
         );
-/*
+        /*
         firestore.collection("users").add({
           email: 
 
@@ -94,8 +94,8 @@ const RegisterComplete = ({ history }) => {
         placeholder="Password"
         autoFocus
       />
-      <br/>
-      <Button 
+      <br />
+      <Button
         onClick={handleSubmit}
         type="primary"
         className="mb-3"
