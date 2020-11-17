@@ -6,6 +6,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
 import Header from "./components/nav/Header";
+import Footer from "./components/footer/Footer";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import MainPage from './pages/MainPage';
 
@@ -53,6 +54,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route excat path="/register/complete/" component={RegisterComplete} />
       </Switch>
+      <Footer />
     </>
     //Falta o Route para o video mas este tem que receber o id do utilizador etc
   );

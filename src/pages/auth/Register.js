@@ -3,6 +3,7 @@ import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
+import "../../css/Register.css"
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -87,6 +88,7 @@ const Register = () => {
   );
 
   return (
+    <div className="wrapper">
     <div className="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
@@ -94,6 +96,7 @@ const Register = () => {
           {RegisterForm()}
         </div>
       </div>
+    </div>
     </div>
   );
 };

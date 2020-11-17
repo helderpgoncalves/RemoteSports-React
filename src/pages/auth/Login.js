@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
+import "../../css/Login.css";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -30,10 +31,6 @@ const Login = ({ history }) => {
           token: idTokenResult.token,
         },
       });
-
-      // ********* TODO ************
-      // Importante encaminhar o utilizador logado
-      // Para a pagina certa
 
       history.push("/mainpage");
     } catch (error) {
@@ -106,27 +103,29 @@ const Login = ({ history }) => {
   );
 
   return (
-    <div className="container p-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          {loading ? (
-            <h3 className="text-danger">Loading...</h3>
-          ) : (
-            <h3>Login</h3>
-          )}
-          {LoginForm()}
+    <div className="wrapper">
+      <div className="container p-5">
+        <div className="row">
+          <div className="col-md-6 offset-md-3">
+            {loading ? (
+              <h3 className="text-danger">Loading...</h3>
+            ) : (
+              <h3>Login</h3>
+            )}
+            {LoginForm()}
 
-          <Button
-            onClick={googleLogin}
-            type="danger"
-            className="mb-3"
-            shape="round"
-            block
-            icon={<GoogleOutlined />}
-            size="large"
-          >
-            Google Account Login
-          </Button>
+            <Button
+              onClick={googleLogin}
+              type="danger"
+              className="mb-3"
+              shape="round"
+              block
+              icon={<GoogleOutlined />}
+              size="large"
+            >
+              Google Account Login
+            </Button>
+          </div>
         </div>
       </div>
     </div>
