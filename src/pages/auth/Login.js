@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import "../../css/Login.css";
+import { Link } from "react-router-dom";
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -62,44 +63,46 @@ const Login = ({ history }) => {
   };
 
   const LoginForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <input
-          type="email"
-          name="email"
-          className="form-control"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoFocus
-          placeholder="Email"
-        />
-      </div>
-      <div className="form-group">
-        <input
-          type="password"
-          name="password"
-          className="form-control"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoFocus
-          placeholder="Password"
-        />
-      </div>
+    <div id="loginform">
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <input
+            type="email"
+            name="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoFocus
+            placeholder="Email"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            name="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoFocus
+            placeholder="Password"
+          />
+        </div>
 
-      <br />
-      <Button
-        onClick={handleSubmit}
-        type="primary"
-        className="mb-3"
-        shape="round"
-        block
-        icon={<MailOutlined />}
-        size="large"
-        disabled={!email || password.length < 6}
-      >
-        Login with Email/Password
-      </Button>
-    </form>
+        <br />
+        <Button
+          onClick={handleSubmit}
+          type="primary"
+          className="mb-3"
+          shape="round"
+          block
+          icon={<MailOutlined />}
+          size="large"
+          disabled={!email || password.length < 6}
+        >
+          Login with Email/Password
+        </Button>
+      </form>
+    </div>
   );
 
   return (
@@ -125,6 +128,10 @@ const Login = ({ history }) => {
             >
               Google Account Login
             </Button>
+
+            <Link to="/forgot/password" className="text-danger float-right">
+              Forgot Password
+            </Link>
           </div>
         </div>
       </div>

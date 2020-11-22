@@ -48,7 +48,6 @@ const RegisterComplete = ({ history }) => {
 
         let user = auth.currentUser;
         await user.updatePassword(password);
-        const idTokenResult = await user.getIdTokenResult();
 
         toast.success(
           `🤪 Excellent! You complete your registration! Welcome to RemoteSports!`,
@@ -72,6 +71,7 @@ const RegisterComplete = ({ history }) => {
             region: region,
             phoneNumber: phoneNumber,
           })
+
           .then(function () {
             console.log("Document successfully written!");
           })
@@ -98,7 +98,7 @@ const RegisterComplete = ({ history }) => {
 
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
-      <input type="email" className="form-control" value={email} disabled />
+      <input type="email" className="form-control" value={email} readOnly />
       <br />
       <input
         type="password"

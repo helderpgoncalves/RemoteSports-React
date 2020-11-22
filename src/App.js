@@ -5,10 +5,10 @@ import { Switch, Route } from "react-router-dom";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Home from "./pages/Home";
-import Header from "./components/nav/Header";
-import Footer from "./components/footer/Footer";
+import Header from "./components/Header/Header.js";
 import RegisterComplete from "./pages/auth/RegisterComplete";
-import MainPage from './pages/MainPage';
+import MainPage from "./pages/MainPage";
+import Room from "./pages/Room";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,19 +31,14 @@ const App = () => {
           payload: {
             email: user.email,
             token: idTokenResult.token,
-          }
+          },
         });
       }
     });
     return () => unsubscribe();
-  }, [])
+  }, []);
 
   return (
-    //Necessitamos de retornar os componentes
-    //Para isso utiliza-se o switch
-
-    //Necesasario este fragmento <> para colocar dois componentes
-    //É tipo uma <div>
     <>
       <Header />
       <ToastContainer />
@@ -53,10 +48,9 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route excat path="/register/complete/" component={RegisterComplete} />
+        <Route path="/room/:roomID" component={Room} />
       </Switch>
-      <Footer />
     </>
-    //Falta o Route para o video mas este tem que receber o id do utilizador etc
   );
 };
 

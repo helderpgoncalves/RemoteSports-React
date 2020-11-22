@@ -10,10 +10,10 @@ import {
 } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { auth } from "../../firebase";
-import "../nav/Header.css";
+import "./Header.css";
 
 const { SubMenu } = Menu; // Menu.SubMenu também de pode escrever isto
 
@@ -23,12 +23,13 @@ const Header = () => {
   const [theme, setTheme] = React.useState("light");
 
   let dispatch = useDispatch();
+  let { user } = useSelector((state) => ({ ...state }));
+
   let history = useHistory();
 
   const handleClick = (e) => {
     setCurrent(e.key);
   };
-
 
   const changeTheme = (value) => {
     setTheme(value ? "dark" : "light");
@@ -41,8 +42,12 @@ const Header = () => {
       payload: null,
     });
 
-    history.push("/login");
+    history.push("/");
   };
+
+  const goMainPage = () => {
+    history.push("/mainpage");
+  }
 
   return (
     <>
@@ -59,18 +64,39 @@ const Header = () => {
         <Menu.Item className="float-right">
           <Switch onChange={changeTheme}></Switch> Change Theme
         </Menu.Item>
-        <SubMenu key="login" icon={<UserOutlined />} title="User">
-          <Menu.Item key="register" icon={<UserAddOutlined />}>
+
+        {!user && (
+          <Menu.Item
+            key="register"
+            icon={<UserAddOutlined />}
+            className="float-right"
+          >
             <Link to="/register">Register</Link>
           </Menu.Item>
+        )}
 
-          <Menu.Item key="login" icon={<UserOutlined />}>
+        {!user && (
+          <Menu.Item
+            key="login"
+            icon={<UserOutlined />}
+            className="float-right"
+          >
             <Link to="/login">Login</Link>
           </Menu.Item>
-          <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
-            Logout
-          </Menu.Item>
-        </SubMenu>
+        )}
+
+        {user && (
+          <SubMenu
+            icon={<UserOutlined />}
+            title={user.email && user.email.split("@")[0]}
+            className="float-right"
+            onTitleClick={goMainPage}
+          >
+            <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
+              Logout
+            </Menu.Item>
+          </SubMenu>
+        )}
       </Menu>
     </>
   );
