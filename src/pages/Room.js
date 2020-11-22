@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import io from 'socket.io-client'
 import faker from "faker"
+import { toast } from "react-toastify";
 
 import {IconButton, Badge, Input, Button} from '@material-ui/core'
 import VideocamIcon from '@material-ui/icons/Videocam'
@@ -383,7 +384,16 @@ class Room extends Component {
 	handleEndCall = () => {
 		try {
 			let tracks = this.localVideoref.current.srcObject.getTracks()
-			tracks.forEach(track => track.stop())
+      tracks.forEach(track => track.stop())
+      toast.error('You leave the Meeting!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 		} catch (e) {}
 		window.location.href = "/"
 	}
@@ -524,7 +534,9 @@ class Room extends Component {
 							<Row id="main" className="flex-container" style={{ margin: 0, padding: 0 }}>
 								<video id="my-video" ref={this.localVideoref} autoPlay muted style={{
 									borderStyle: "solid",borderColor: "#bdbdbd",margin: "10px",objectFit: "fill",
-									width: "100%",height: "100%"}}></video>
+									width: "100%",height: "100%"}}>
+                  </video>
+                  <h5 centered>{this.state.username}</h5>
 							</Row>
 						</div>
 					</div>
