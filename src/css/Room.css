@@ -22,3 +22,11 @@ body {
     justify-content: center;
     text-align: center;
 }
+
+.btn-down {
+    z-index: 2;
+    position: fixed; 
+    bottom: 0px;
+    width: 100%;
+    height: auto;
+}

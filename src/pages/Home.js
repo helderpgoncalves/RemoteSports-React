@@ -11,7 +11,7 @@ const Home = (props) => {
   
   const create = () => {
     if (url !== "") {
-      props.history.push(`/room/${url}`);
+      props.history.push(`${url}`);
     } else {
       const id = uuid();
       props.history.push(`/room/${id}`);
