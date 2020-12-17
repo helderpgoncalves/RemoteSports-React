@@ -7,6 +7,7 @@ import "../../css/RegisterComplete.css";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import FileUploader from "react-firebase-file-uploader";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,9 @@ const RegisterComplete = ({ history }) => {
   const [country, selectCountry] = useState("");
   const [region, selectRegion] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isTeacher, setIsTeacher] = useState("");
+  const [school, setSchool] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
@@ -70,6 +74,9 @@ const RegisterComplete = ({ history }) => {
             country: country,
             region: region,
             phoneNumber: phoneNumber,
+            isTeacher: isTeacher,
+            school: school,
+            profileImage: profileImage,
           })
 
           .then(function () {
@@ -98,6 +105,16 @@ const RegisterComplete = ({ history }) => {
 
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
+      <label>Profile Image</label>
+          {profileImage && <img src={profileImage} />}
+          <FileUploader
+            accept="image/*"
+            name="avatar"
+            randomizeFilename
+            onUploadSuccess={(e) => setProfileImage(e.target.value)}
+          />
+      <br />
+      <br />
       <input type="email" className="form-control" value={email} readOnly />
       <br />
       <input
@@ -139,9 +156,26 @@ const RegisterComplete = ({ history }) => {
       <PhoneInput
         international
         defaultCountry="PT"
-        placeholder="Enter phone number"
         value={phoneNumber}
         onChange={setPhoneNumber}
+      />
+      <br />
+      <h3>Type of User</h3>
+      <select onChange={(e) => setIsTeacher(e.target.value)}>
+        <option value={isTeacher}>Teacher</option>
+        <option value={isTeacher}>Student</option>
+        <option value={isTeacher}>Other</option>
+      </select>
+      <br />
+      <br />
+      <input
+        type="text"
+        className="form-control"
+        value={school}
+        onChange={(e) => setSchool(e.target.value)}
+        placeholder="School"
+        autoFocus
+        required="false"
       />
       <br />
       <Button

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/Home.css";
 import { Input, Button } from "@material-ui/core";
 import { v1 as uuid } from "uuid";
+import SearchFirestore from "../components/SearchFirestore/SearchFirestore";
 
 const MainPage = (props) => {
   const [url, setURL] = useState("");
@@ -42,8 +43,8 @@ const MainPage = (props) => {
           Go
         </Button>
       </div>
-      <div className="cointainer2">
-        
+      <div className="cointainer2 text-center">
+      <SearchFirestore />
       </div>
     </>
   );

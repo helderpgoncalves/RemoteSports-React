@@ -8,7 +8,7 @@ import { v1 as uuid } from "uuid";
 
 const Home = (props) => {
   const [url, setURL] = useState("");
-  
+
   const create = () => {
     if (url !== "") {
       props.history.push(`${url}`);

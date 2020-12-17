@@ -82,7 +82,7 @@ const Register = () => {
         icon={<UserAddOutlined />}
         size="large"
         disabled={!email}
-      >Login with Email/Password
+      >Register with Email
       </Button>
     </form>
   );
