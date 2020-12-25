@@ -23,7 +23,7 @@ class SearchFirestore extends Component {
         if (doc.exists) {
           // Evitar Duplicados
           // TODO //
-          this.state.data.map(doc.data().email);
+          this.state.data.push(doc.data())
           console.log(this.state.data);
         } else {
           console.log("No such document!");
@@ -117,6 +117,7 @@ class SearchFirestore extends Component {
           })}
         </div>
         <div className="pl-5 pr-5 pt-5">
+          
           <h4 className="text-center">CLASS</h4>
           <Table>
             <thead>
