@@ -20,7 +20,7 @@ const { SubMenu } = Menu; // Menu.SubMenu também de pode escrever isto
 const Header = () => {
   //Atribuir algum valor
   const [current, setCurrent] = useState("home");
-  const [theme, setTheme] = React.useState("light");
+  const [theme, setTheme] = React.useState("light"); //Theme light por default
 
   let dispatch = useDispatch();
   let { user } = useSelector((state) => ({ ...state }));
@@ -31,11 +31,11 @@ const Header = () => {
     setCurrent(e.key);
   };
 
-  const changeTheme = (value) => {
+  const changeTheme = (value) => { //mudar a cor do website
     setTheme(value ? "dark" : "light");
   };
 
-  const logout = () => {
+  const logout = () => { //logout de utilizador
     auth.signOut();
     dispatch({
       type: "LOGOUT",

@@ -26,7 +26,7 @@ const Home = (props) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "center", 
           }}
         >
           <img style={{ width: "50%" }} src={logo} alt="Logo" />

@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
+//dados da firebase
 var firebaseConfig = {
   apiKey: "AIzaSyBQLHu_AYWJ8Jv5ZrnlGvhXFbSkN8VVHC0",
   authDomain: "remotesports.firebaseapp.com",

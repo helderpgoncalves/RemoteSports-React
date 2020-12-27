@@ -21,9 +21,9 @@ const App = () => {
 
   // Para receber o state do firebase auth
 
-  useEffect(() => {
+  useEffect(() => { //React
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
+      if (user) { //Login está feito
         const idTokenResult = await user.getIdTokenResult();
         console.log("user", user); // Testar
         dispatch({

@@ -89,18 +89,18 @@ class Room extends Component {
 		} catch(e) { console.log(e) }
 	}
 
-	getMedia = () => {
+	getMedia = () => { //tentamos ir buscar o video e audio do utilizador
 		this.setState({
 			video: this.videoAvailable,
 			audio: this.audioAvailable
 		}, () => {
-			this.getUserMedia()
-			this.connectToSocketServer()
+			this.getUserMedia() //atribuir media ao utilizador
+			this.connectToSocketServer() // conecção a sala
 		})
 	}
 
 	getUserMedia = () => {
-		if ((this.state.video && this.videoAvailable) || (this.state.audio && this.audioAvailable)) {
+		if ((this.state.video && this.videoAvailable) || (this.state.audio && this.audioAvailable)) { // se conseguirmos atribuir a media e audio ao utilizador
 			navigator.mediaDevices.getUserMedia({ video: this.state.video, audio: this.state.audio })
 				.then(this.getUserMediaSuccess)
 				.then((stream) => {})
@@ -164,7 +164,7 @@ class Room extends Component {
 		})
 	}
 
-	getDislayMedia = () => {
+	getDislayMedia = () => { //media a ser "displayed" do utilizador
 		if (this.state.screen) {
 			if (navigator.mediaDevices.getDisplayMedia) {
 				navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
@@ -175,7 +175,7 @@ class Room extends Component {
 		}
 	}
 
-	getDislayMediaSuccess = (stream) => {
+	getDislayMediaSuccess = (stream) => { 
 		try {
 			window.localStream.getTracks().forEach(track => track.stop())
 		} catch(e) { console.log(e) }
@@ -186,9 +186,9 @@ class Room extends Component {
 		for (let id in connections) {
 			if (id === socketId) continue
 
-			connections[id].addStream(window.localStream)
+			connections[id].addStream(window.localStream) //adicionar a stream do utilizador
 
-			connections[id].createOffer().then((description) => {
+			connections[id].createOffer().then((description) => { 
 				connections[id].setLocalDescription(description)
 					.then(() => {
 						socket.emit('signal', id, JSON.stringify({ 'sdp': connections[id].localDescription }))
