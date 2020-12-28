@@ -106,7 +106,7 @@ const RegisterComplete = ({ history }) => {
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
       <label>Profile Image</label>
-          {profileImage && <img src={profileImage} />}
+          {profileImage && <img src={profileImage} alt=""/>}
           <FileUploader
             accept="image/*"
             name="avatar"

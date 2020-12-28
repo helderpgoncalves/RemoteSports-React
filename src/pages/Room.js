@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
-import Select from "react-select";
 
 import { auth, db } from "../firebase";
 
@@ -50,12 +49,6 @@ class Room extends Component {
 
     this.state = {
       video: false,
-      videoSource: [
-        {
-          label: "",
-          value: "",
-        },
-      ],
       audio: false,
       screen: false,
       showModal: false,
@@ -84,7 +77,7 @@ class Room extends Component {
           }
         })
         .catch(function (error) {
-          toast.error(error.message);
+          console.log(error.message)
         });
     } else {
       return true;
@@ -580,18 +573,27 @@ class Room extends Component {
   };
 
   enumerateDevicesFunction = () => {
+    let select1 = document.getElementById("select1");
+    let select3 = document.getElementById("select3");
+
     navigator.mediaDevices
       .enumerateDevices()
       .then(function (devices) {
-        devices.forEach(function (device) {
-          if (device.kind === "videoinput") {
-            console.log(`Id: ${device.deviceId}\n`);
-            console.log(`Nome: ${device.label}\n\n`);
-          }
+        devices.forEach(function (deviceInfo) {
+          var option = document.createElement("option");
+          option.value = deviceInfo.deviceId;
 
-          if (device.kind === "audioinput") {
-            console.log(`Id: ${device.deviceId}\n`);
-            console.log(`Nome: ${device.label}\n\n`);
+          if (deviceInfo.kind === "audioinput") {
+            console.log(deviceInfo.label);
+            option.label = deviceInfo.label;
+            option.key = deviceInfo.deviceId;
+
+            select1.appendChild(option);
+          } else if (deviceInfo.kind === "videoinput") {
+            option.label = deviceInfo.label;
+            option.key = deviceInfo.deviceId;
+
+            select3.appendChild(option);
           }
         });
       })
@@ -818,8 +820,22 @@ class Room extends Component {
                   Copy invite link
                 </Button>{" "}
                 <br />
-                <Select options={this.state.videoSource}></Select>
               </div>
+
+              <div className="pt-4 pb-4">
+              <div>
+                <label for="select1">Audio Source: </label>
+                <select id="select1" className="pr-3">
+                </select>
+              </div>
+              <div>
+                <label for="select3">Video Source: </label>
+                <select id="select3" className="pr-3">
+                </select>
+                {this.enumerateDevicesFunction()}
+              </div>
+              </div>
+
               <Row
                 id="main"
                 className="flex-container"

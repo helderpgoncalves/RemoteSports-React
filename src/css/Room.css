@@ -30,3 +30,7 @@ body {
     width: 100%;
     height: auto;
 }
+
+select {
+    width: 500px;
+  }
