@@ -67,8 +67,8 @@ const Home = (props) => {
           <h1 className="top-title" aria-level="3">
             Why choose RemoteSports?
           </h1>
-          <div class="solutions">
-            <div class="solution-list clearfix">
+          <div className="solutions">
+            <div className="solution-list clearfix">
               <div className="solution-box">
                 <div className="icon">
                   <a href="http://localhost:3000/register">
@@ -138,9 +138,8 @@ const Home = (props) => {
       <div className="footer">
         <div className="row">
           <div className="col">
-            <h3>RemoteSports Team</h3>
-            <ui className="list-unstyled">
-              <li>
+            <h3 className="pl-5 pt-4">RemoteSports Team</h3>
+              <li className="list-unstyled pl-5">
                 <a
                   style={{ color: "white" }}
                   href="https://www.linkedin.com/in/heldergoncalves16/"
@@ -148,18 +147,17 @@ const Home = (props) => {
                   HÉLDER PIMENTA GONÇALVES
                 </a>
               </li>
-              <li>HUGO PEREIRA</li>
-            </ui>
+              <li className="list-unstyled pl-5">HUGO PEREIRA</li>
           </div>
-          <div className="col">
+          <div className="col pt-4">
             <h3>Want to contribute? Great!</h3>
-            <a href="https://github.com/helderpgoncalves/RemoteSports">
-              <img src={GitHub} alt="github" style={{ width: "50%" }} />
+            <a className="pl-5" href="https://github.com/helderpgoncalves/RemoteSports">
+              <img src={GitHub} alt="github" style={{width: "30%" }} />
             </a>
           </div>
         </div>
         <hr />
-        <div className="row">
+        <div className="row text-center">
           <p className="col-sm">
             &copy;{new Date().getFullYear()} RemoteSports |{" "}
             <a
