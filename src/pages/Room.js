@@ -586,13 +586,17 @@ class Room extends Component {
           if (deviceInfo.kind === "audioinput") {
             console.log(deviceInfo.label);
             option.label = deviceInfo.label;
-            option.key = deviceInfo.deviceId;
+            option.value = deviceInfo.deviceId;
 
+            //  console.log(option.value);
+            
             select1.appendChild(option);
           } else if (deviceInfo.kind === "videoinput") {
             option.label = deviceInfo.label;
-            option.key = deviceInfo.deviceId;
-
+            option.value = deviceInfo.deviceId;
+            
+            //  console.log(option.value);
+           
             select3.appendChild(option);
           }
         });
