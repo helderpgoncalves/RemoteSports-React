@@ -9,6 +9,7 @@ import Header from "./components/Header/Header.js";
 import RegisterComplete from "./pages/auth/RegisterComplete";
 import MainPage from "./pages/MainPage";
 import Room from "./pages/Room";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +49,7 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route excat path="/register/complete/" component={RegisterComplete} />
+        <Route excat path="/forgot/password" component={ForgotPassword} />
         <Route path="/room/:roomID" component={Room} />
       </Switch>
     </>

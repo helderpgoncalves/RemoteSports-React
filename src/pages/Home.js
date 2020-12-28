@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/logo_transparent.png";
 import "../css/Home.css";
 import GitHub from "../assets/GitHub_Logo_White.png";
 import { Input, Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
 import { v1 as uuid } from "uuid";
 
 const Home = (props) => {
+  const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    if (user && user.token) props.history.push("/mainpage");
+  }, [user]);
+
   const [url, setURL] = useState("");
 
   const create = () => {
@@ -26,7 +33,7 @@ const Home = (props) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center", 
+            alignItems: "center",
           }}
         >
           <img style={{ width: "50%" }} src={logo} alt="Logo" />

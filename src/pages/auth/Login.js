@@ -84,7 +84,6 @@ const Login = ({ history }) => {
             className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoFocus
             placeholder="Password"
           />
         </div>

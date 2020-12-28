@@ -1,7 +1,7 @@
 // Barra de Navegação Entre Paginas - Utilizou-se Ant Design Menu
 
 import React, { useState } from "react";
-import { Menu, Switch } from "antd";
+import { Menu } from "antd";
 import {
   HomeOutlined,
   UserOutlined,
@@ -20,7 +20,6 @@ const { SubMenu } = Menu; // Menu.SubMenu também de pode escrever isto
 const Header = () => {
   //Atribuir algum valor
   const [current, setCurrent] = useState("home");
-  const [theme, setTheme] = React.useState("light"); //Theme light por default
 
   let dispatch = useDispatch();
   let { user } = useSelector((state) => ({ ...state }));
@@ -29,10 +28,6 @@ const Header = () => {
 
   const handleClick = (e) => {
     setCurrent(e.key);
-  };
-
-  const changeTheme = (value) => { //mudar a cor do website
-    setTheme(value ? "dark" : "light");
   };
 
   const logout = () => { //logout de utilizador
@@ -56,13 +51,10 @@ const Header = () => {
         selectedKeys={[current]}
         mode="horizontal"
         className="main-header"
-        theme={theme}
+        theme="dark"
       >
         <Menu.Item key="home" icon={<HomeOutlined />}>
           <Link to="/">RemoteSports</Link>
-        </Menu.Item>
-        <Menu.Item className="float-right">
-          <Switch onChange={changeTheme}></Switch> Change Theme
         </Menu.Item>
 
         {!user && (
