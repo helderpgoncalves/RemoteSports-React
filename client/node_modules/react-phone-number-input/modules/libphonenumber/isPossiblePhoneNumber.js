@@ -1,0 +1,15 @@
+import { parsePhoneNumberFromString } from 'libphonenumber-js/core';
+export default function isPossiblePhoneNumber(value, metadata) {
+  if (!value) {
+    return false;
+  }
+
+  var phoneNumber = parsePhoneNumberFromString(value, metadata);
+
+  if (!phoneNumber) {
+    return false;
+  }
+
+  return phoneNumber.isPossible();
+}
+//# sourceMappingURL=isPossiblePhoneNumber.js.map
