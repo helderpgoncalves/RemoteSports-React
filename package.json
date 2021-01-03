@@ -2,6 +2,10 @@
   "name": "remotesports",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.x",
+    "npm": "6.x"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
