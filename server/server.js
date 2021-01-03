@@ -12,10 +12,16 @@ var io = require('socket.io')(server)
 app.use(cors())
 app.use(bodyParser.json())
 
-const staticFiles = express.static(path.join(__dirname, '../../client/build'))
-app.use(staticFiles)
+app.use(express.static(path.join(__dirname, '../client/build/')));
 
-app.set('port', (process.env.PORT || 3001))
+
+if(process.env.NODE_ENV==='production'){
+	app.use(express.static(__dirname+"../client/build"))
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname+"../client/build/index.html"))
+	})
+}
+app.set('port', (process.env.PORT || 8000))
 
 sanitizeString = (str) => {
 	return xss(str)
