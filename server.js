@@ -1,12 +1,17 @@
 const express = require('express')
-var cors = require('cors')
+const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
 const path = require("path")
 const xss = require("xss")
 
 const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const io = require("socket.io")(server, {
+	cors: {
+	  origin: "https://remotesports.herokuapp.com/",
+	  methods: ["GET", "POST"]
+	}
+  });
 
 app.use(cors())
 app.use(bodyParser.json()) 
