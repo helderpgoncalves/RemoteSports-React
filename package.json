@@ -9,6 +9,7 @@
     "express": "^4.17.1",
     "nodemon": "^2.0.6",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^3.0.4",
     "xss": "^1.0.8"
   },
   "scripts": {
