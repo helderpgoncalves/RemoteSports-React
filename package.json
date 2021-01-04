@@ -1,23 +1,16 @@
 {
   "name": "remotesports",
-  "version": "1.0.0",
-  "main": "server/server.js",
-  "repository": {},
-  "license": "MIT",
-  "engines": {
-    "node": "12.x",
-    "npm": "6.x"
-  },
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "concurrently": "^4.0.1",
-    "rimraf": "^2.6.2"
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "xss": "^1.0.8"
   },
   "scripts": {
-    "build": "concurrently \"cd client && npm run build\" \"cd server && npm run build\"",
-    "clean": "concurrently \"rimraf node_modules\" \"cd client && rimraf node_modules build\" \"cd server && rimraf node_modules build\"",
-    "heroku-postbuild": "npm run build",
-    "install": "(cd client && npm install) && (cd server && npm install)",
-    "start": "concurrently \"cd client && PORT=3000 npm run start\" \"cd server && PORT=8000 npm run start\"",
-    "start:prod": "cd server && npm run start:prod"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install"
   }
 }
