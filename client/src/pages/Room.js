@@ -23,7 +23,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import "../css/Room.css";
 
-const server_url = "http://localhost:8000";
+const server_url = process.env.NODE_ENV === 'production' ? 'https://remotesports.herokuapp.com/' : "http://localhost:8000"
 
 var connections = {};
 const peerConnectionConfig = {
