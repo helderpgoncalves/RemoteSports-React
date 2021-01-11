@@ -10,6 +10,7 @@ import RegisterComplete from "./pages/auth/RegisterComplete";
 import MainPage from "./pages/MainPage";
 import Room from "./pages/Room";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import ProfileSettings from "./pages/ProfileSettings";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,13 +21,10 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
 
-  // Para receber o state do firebase auth
-
   useEffect(() => { //React
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) { //Login está feito
         const idTokenResult = await user.getIdTokenResult();
-        console.log("user", user); // Testar
         dispatch({
           type: "LOGGED_IN_USER",
           payload: {
@@ -50,6 +48,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route excat path="/register/complete/" component={RegisterComplete} />
         <Route excat path="/forgot/password" component={ForgotPassword} />
+        <Route excat path="/settings" component={ProfileSettings} />
         <Route path="/room/:roomID" component={Room} />
       </Switch>
     </>

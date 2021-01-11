@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { auth, db } from "../../firebase";
+import { auth, db, storage } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
@@ -7,7 +7,6 @@ import "../../css/RegisterComplete.css";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import FileUploader from "react-firebase-file-uploader";
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -18,11 +17,16 @@ const RegisterComplete = ({ history }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isTeacher, setIsTeacher] = useState("");
   const [school, setSchool] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  const [file, setFile] = useState(null);
+  const [url, setURL] = useState("");
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
   }, []);
+
+  function handleChange(e) {
+    setFile(e.target.files[0]);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,6 +70,20 @@ const RegisterComplete = ({ history }) => {
           }
         );
 
+        const uploadTask = storage
+          .ref(`/images/${auth.currentUser.uid}/profileImage`)
+          .put(file);
+        uploadTask.on("state_changed", console.log, console.error, () => {
+          storage
+            .ref("images")
+            .child(auth.currentUser.uid).child('profileImage')
+            .getDownloadURL()
+            .then((url) => {
+              setFile(null);
+              setURL(url);
+            });
+        });
+
         db.collection("users")
           .doc(auth.currentUser.uid)
           .set({
@@ -76,9 +94,7 @@ const RegisterComplete = ({ history }) => {
             phoneNumber: phoneNumber,
             isTeacher: isTeacher,
             school: school,
-            profileImage: profileImage,
           })
-
           .then(function () {
             console.log("Document successfully written!");
           })
@@ -106,13 +122,7 @@ const RegisterComplete = ({ history }) => {
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
       <label>Profile Image</label>
-          {profileImage && <img src={profileImage} alt=""/>}
-          <FileUploader
-            accept="image/*"
-            name="avatar"
-            randomizeFilename
-            onUploadSuccess={(e) => setProfileImage(e.target.value)}
-          />
+      <input type="file" onChange={handleChange} />
       <br />
       <br />
       <input type="email" className="form-control" value={email} readOnly />
@@ -138,20 +148,20 @@ const RegisterComplete = ({ history }) => {
       />
       <br />
       <CountryDropdown
+      className="form-control"
         value={country}
         onChange={selectCountry}
         style={{ fontSize: 15 }}
       />
       <br />
-      <br />
       <RegionDropdown
+      className="form-control"
         disableWhenEmpty={true}
         country={country}
         value={region}
         onChange={selectRegion}
         style={{ fontSize: 15 }}
       />
-      <br />
       <br />
       <PhoneInput
         international
@@ -160,13 +170,10 @@ const RegisterComplete = ({ history }) => {
         onChange={setPhoneNumber}
       />
       <br />
-      <h3>Type of User</h3>
-      <select onChange={(e) => setIsTeacher(e.target.value)}>
-        <option value={isTeacher}>Teacher</option>
-        <option value={isTeacher}>Student</option>
-        <option value={isTeacher}>Other</option>
+      <select onChange={(e) => setIsTeacher(e.target.value)} className="form-control" required>
+        <option value={true}>Teacher</option>
+        <option value={false}>Student</option>
       </select>
-      <br />
       <br />
       <input
         type="text"

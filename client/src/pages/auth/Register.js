@@ -16,7 +16,8 @@ const Register = () => {
       // URL must be in the authorized domains list in the Firebase Console.
       // process para aceder as variaveis env
 
-      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
+     // url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+     url: "http://localhost:3000/register/complete",
       handleCodeInApp: true,
     };
 
@@ -43,6 +44,7 @@ const Register = () => {
         setEmail("");
       })
       .catch(function (error) {
+        console.log(error)
         toast.error(`😥 ${error} Please try again!`, {
           position: "top-right",
           autoClose: 5000,

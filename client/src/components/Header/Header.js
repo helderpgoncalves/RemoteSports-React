@@ -7,6 +7,7 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
@@ -84,6 +85,9 @@ const Header = () => {
             className="float-right"
             onTitleClick={goMainPage}
           >
+            <Menu.Item icon={<SettingOutlined />}>
+            <Link to="/settings">Profile Details</Link>
+            </Menu.Item>
             <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
               Logout
             </Menu.Item>

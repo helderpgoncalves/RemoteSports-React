@@ -56,7 +56,7 @@ class Room extends Component {
       messages: [],
       message: "",
       newmessages: 0,
-      askForUsername: this.getUsername(),
+      askForUsername: true,
       username: "",
     };
     connections = {};
@@ -584,7 +584,6 @@ class Room extends Component {
           option.value = deviceInfo.deviceId;
 
           if (deviceInfo.kind === "audioinput") {
-            console.log(deviceInfo.label);
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
@@ -694,10 +693,11 @@ class Room extends Component {
                   borderStyle: "solid",
                   borderColor: "#bdbdbd",
                   objectFit: "fill",
-                  width: "60%",
+                  width: "80%",
                   height: "30%",
                 }}
               ></video>
+              
             </div>
           </div>
         ) : (

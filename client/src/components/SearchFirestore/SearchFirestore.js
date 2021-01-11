@@ -4,6 +4,7 @@ import AsyncSelect from "react-select/async";
 import { Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { DeleteOutlined } from "@ant-design/icons";
+import ICalendar from "../iCalendar/ICalendar"
 
 class SearchFirestore extends Component {
   constructor(props) {
@@ -64,6 +65,10 @@ class SearchFirestore extends Component {
     this.setState({
       selectedTag: [tags],
     });
+
+    // A FAZER 
+
+
   };
 
   handleDeleteRow(i) {
@@ -101,20 +106,6 @@ class SearchFirestore extends Component {
             loadOptions={this.loadOptions}
             onChange={this.handleOnChange}
           />
-          {this.state.selectedTag.map((e, index) => {
-            return (
-              <div>
-                <Button
-                  onClick={this.mySubmitHandler(e)}
-                  variant="contained"
-                  color="primary"
-                  style={{ margin: "20px" }}
-                >
-                  ADD STUDENT TO CLASS
-                </Button>
-              </div>
-            );
-          })}
         </div>
         <div className="pl-5 pr-5 pt-5">
           
@@ -133,6 +124,8 @@ class SearchFirestore extends Component {
             </tbody>
           </Table>
         </div>
+
+        <ICalendar/>
       </>
     );
   }
