@@ -2,23 +2,48 @@ import React, { useState } from "react";
 import { auth, provider } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
+import Avatar from "@material-ui/core/Avatar";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import "../../css/Login.css";
 import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import logo from "../../assets/logo_transparent.png";
+import Grid from "@material-ui/core/Grid";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    width: "30%",
+    backgroundColor: theme.palette.background.paper,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // So para ser uma pouco user friendly...
-  const [loading, setLoading] = useState(false);
+  const classes = useStyles();
 
   let dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
 
@@ -37,7 +62,6 @@ const Login = ({ history }) => {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-      setLoading(false);
     }
   };
 
@@ -64,79 +88,84 @@ const Login = ({ history }) => {
   };
 
   const LoginForm = () => (
-    <div id="loginform">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Avatar
+          alt="Remy Sharp"
+          src={logo}
+          className={classes.avatar}
+          variant="rounded"
+        />
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            required
+            margin="normal"
+            variant="outlined"
             type="email"
             name="email"
-            className="form-control"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoFocus
-            placeholder="Email"
+            label="Email Address"
           />
-        </div>
-        <div className="form-group">
-          <input
+          <TextField
+            fullWidth
+            required
+            margin="normal"
+            variant="outlined"
             type="password"
             name="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
+            label="Password"
           />
-        </div>
 
-        <br />
-        <Button
-          onClick={handleSubmit}
-          type="primary"
-          className="mb-3"
-          shape="round"
-          block
-          icon={<MailOutlined />}
-          size="large"
-          disabled={!email || password.length < 6}
-        >
-          Login with Email/Password
-        </Button>
-      </form>
-    </div>
-  );
-
-  return (
-    <div className="wrapper">
-      <div className="container p-5">
-        <div className="row">
-          <div className="col-md-6 offset-md-3">
-            {loading ? (
-              <h3 className="text-danger">Loading...</h3>
-            ) : (
-              <h3>Login</h3>
-            )}
-            {LoginForm()}
-
-            <Button
-              onClick={googleLogin}
-              type="danger"
-              className="mb-3"
-              shape="round"
-              block
-              icon={<GoogleOutlined />}
-              size="large"
-            >
-              Google Account Login
-            </Button>
-
-            <Link to="/forgot/password" className="text-danger float-right">
-              Forgot Password
-            </Link>
-          </div>
-        </div>
+          <br />
+          <Button
+            onClick={handleSubmit}
+            type="primary"
+            className={classes.submit}
+            shape="round"
+            block
+            icon={<MailOutlined />}
+            size="large"
+            disabled={!email || password.length < 6}
+          >
+            Login with Email/Password
+          </Button>
+          <Button
+            onClick={googleLogin}
+            type="danger"
+            className={classes.submit}
+            shape="round"
+            block
+            icon={<GoogleOutlined />}
+            size="large"
+          >
+            Google Account Login
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="/forgot/password" variant="body2" className="text-danger">
+                Forgot Password
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
       </div>
-    </div>
+    </Container>
   );
+
+  return <div className="wrapper">{LoginForm()}</div>;
 };
 
 export default Login;

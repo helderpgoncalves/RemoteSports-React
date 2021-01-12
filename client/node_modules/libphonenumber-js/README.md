@@ -87,7 +87,7 @@ _(new API)_
 ```js
 import parsePhoneNumber from 'libphonenumber-js'
 
-const phoneNumber = parsePhoneNumber('Phone: 8 (800) 555 35 35.', 'RU')
+const phoneNumber = parsePhoneNumber(' 8 (800) 555-35-35 ', 'RU')
 if (phoneNumber) {
   phoneNumber.country === 'RU'
   phoneNumber.number === '+78005553535'
@@ -259,7 +259,7 @@ Can be imported both as a "default" export and as a "named" export.
 import parsePhoneNumberFromString from 'libphonenumber-js'
 // Or: import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
-const phoneNumber = parsePhoneNumberFromString('Call: (213) 373-42-53 ext. 1234.', 'US')
+const phoneNumber = parsePhoneNumberFromString('(213) 373-42-53 ext. 1234', 'US')
 if (phoneNumber) {
   console.log(phoneNumber.formatNational())
 }
@@ -279,7 +279,7 @@ If a developer wants to know the exact reason why the phone number couldn't be p
 import { parsePhoneNumberWithError, ParseError } from 'libphonenumber-js'
 
 try {
-  const phoneNumber = parsePhoneNumberWithError('Call: (213) 373-42-53 ext. 1234.', 'US')
+  const phoneNumber = parsePhoneNumberWithError('(213) 373-42-53 ext. 1234', 'US')
 } catch (error) {
   if (error instanceof ParseError) {
     // Not a phone number, non-existent country, etc.

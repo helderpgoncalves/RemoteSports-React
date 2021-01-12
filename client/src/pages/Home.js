@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import logo from "../assets/logo_transparent.png";
 import "../css/Home.css";
 import GitHub from "../assets/GitHub_Logo_White.png";
-import { Input, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
-
-import { v1 as uuid } from "uuid";
+import MainInterface from "../components/MainInterface/MainInterface.js";
 
 const Home = (props) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -14,60 +11,15 @@ const Home = (props) => {
     if (user && user.token) props.history.push("/mainpage");
   }, [user]);
 
-  const [url, setURL] = useState("");
-
-  const create = () => {
-    if (url !== "") {
-      props.history.push(`${url}`);
-    } else {
-      const id = uuid();
-      props.history.push(`/room/${id}`);
-    }
-  };
-
   return (
     <>
       <div className="home" role="main">
-        <div
-          className="image"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img style={{ width: "50%" }} src={logo} alt="Logo" />
-        </div>
-        <div
-          style={{
-            background: "white",
-            width: "30%",
-            height: "auto",
-            padding: "20px",
-            minWidth: "400px",
-            textAlign: "center",
-            margin: "auto",
-          }}
-        >
-          <p style={{ margin: 0, fontWeight: "bold", paddingRight: "50px" }}>
-            Start or join a meeting
-          </p>
-          <Input placeholder="URL" onChange={(e) => setURL(e.target.value)} />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={create}
-            style={{ margin: "20px" }}
-          >
-            Go
-          </Button>
-        </div>
+        <MainInterface />
         <div id="screen2_container" className="screen">
           <h1 className="top-title" aria-level="3">
             Why choose RemoteSports?
           </h1>
-          <div className="solutions">
+          <div className="solutions text-center">
             <div className="solution-list clearfix">
               <div className="solution-box">
                 <div className="icon">
@@ -139,20 +91,23 @@ const Home = (props) => {
         <div className="row">
           <div className="col">
             <h3 className="pl-5 pt-4">RemoteSports Team</h3>
-              <li className="list-unstyled pl-5">
-                <a
-                  style={{ color: "white" }}
-                  href="https://www.linkedin.com/in/heldergoncalves16/"
-                >
-                  HÉLDER PIMENTA GONÇALVES
-                </a>
-              </li>
-              <li className="list-unstyled pl-5">HUGO PEREIRA</li>
+            <li className="list-unstyled pl-5">
+              <a
+                style={{ color: "white" }}
+                href="https://www.linkedin.com/in/heldergoncalves16/"
+              >
+                HÉLDER PIMENTA GONÇALVES
+              </a>
+            </li>
+            <li className="list-unstyled pl-5">HUGO PEREIRA</li>
           </div>
           <div className="col pt-4">
             <h3>Want to contribute? Great!</h3>
-            <a className="pl-5" href="https://github.com/helderpgoncalves/RemoteSports">
-              <img src={GitHub} alt="github" style={{width: "30%" }} />
+            <a
+              className="pl-5"
+              href="https://github.com/helderpgoncalves/RemoteSports"
+            >
+              <img src={GitHub} alt="github" style={{ width: "30%" }} />
             </a>
           </div>
         </div>

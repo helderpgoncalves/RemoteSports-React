@@ -1,5 +1,10 @@
 <!-- Maybe change the link to the flags to this repo's `unpkg.com` or something like that.  -->
 
+3.1.9 / 07.01.2020
+==================
+
+* [Fixed](https://github.com/catamphetamine/react-phone-number-input/issues/377) determining the `country` for a very incomplete `value` when `value` is set externally.
+
 3.1.8 / 09.12.2020
 ==================
 
