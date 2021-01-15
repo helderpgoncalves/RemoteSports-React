@@ -1,13 +1,13 @@
 // Barra de Navegação Entre Paginas - Utilizou-se Ant Design Menu
 
 import React, { useState } from "react";
-import { Menu } from "antd";
+import { Avatar, Menu } from "antd";
 import {
   HomeOutlined,
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
-  SettingOutlined
+  SettingOutlined,
 } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ import { auth } from "../../firebase";
 import "./Header.css";
 
 const { SubMenu } = Menu; // Menu.SubMenu também de pode escrever isto
+
 
 const Header = () => {
   //Atribuir algum valor
@@ -31,7 +32,8 @@ const Header = () => {
     setCurrent(e.key);
   };
 
-  const logout = () => { //logout de utilizador
+  const logout = () => {
+    //logout de utilizador
     auth.signOut();
     dispatch({
       type: "LOGOUT",
@@ -43,8 +45,8 @@ const Header = () => {
 
   const goMainPage = () => {
     history.push("/mainpage");
-  }
-
+  };
+  
   return (
     <>
       <Menu
@@ -79,19 +81,21 @@ const Header = () => {
         )}
 
         {user && (
-          <SubMenu
-            icon={<UserOutlined />}
-            title={user.email && user.email.split("@")[0]}
-            className="float-right"
-            onTitleClick={goMainPage}
-          >
-            <Menu.Item icon={<SettingOutlined />}>
-            <Link to="/settings">Profile Details</Link>
-            </Menu.Item>
-            <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
-              Logout
-            </Menu.Item>
-          </SubMenu>
+          <>
+            <SubMenu
+              title={user.email && user.email.split("@")[0]}
+              className="float-right"
+              onTitleClick={goMainPage}
+            >
+              <Menu.Item icon={<SettingOutlined />}>
+                <Link to="/settings">Profile Details</Link>
+              </Menu.Item>
+              <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
+                Logout
+              </Menu.Item>
+            </SubMenu>
+            <Avatar className="float-right" style={{transform: 'translate(13px, 7px)',  color: '#f56a00', backgroundColor: '#fde3cf' }}>{user.email[0].toUpperCase()}</Avatar>
+          </> 
         )}
       </Menu>
     </>

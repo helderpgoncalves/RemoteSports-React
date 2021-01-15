@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import { v1 as uuid } from "uuid";
 import logo from "../../assets/logo_transparent.png";
 import { useHistory } from "react-router-dom";
@@ -28,6 +27,10 @@ export default function Album() {
     const id = uuid();
     history.push(`/room/${id}`);
   };
+
+  const register = () => {
+    history.push("/register");
+  }
 
   return (
     <React.Fragment>
@@ -72,8 +75,8 @@ export default function Album() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
-                    <Link to="/register"></Link>Explore
+                  <Button variant="outlined" onClick={register} color="primary">
+                    Explore
                   </Button>
                 </Grid>
               </Grid>

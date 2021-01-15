@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/Home.css";
 import { Input, Button } from "@material-ui/core";
 import { v1 as uuid } from "uuid";
-import SearchFirestore from "../components/SearchFirestore/SearchFirestore";
+import MenuProfessor from "../components/MenuProfessor/MenuProfessor";
 import { useSelector } from "react-redux";
 import { auth, db, storage } from "../firebase";
 import profile from "../assets/blankprofilepicture.png";
@@ -14,7 +14,10 @@ import GrainIcon from "@material-ui/icons/Grain";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import MyCalendar from "../components/MyCalendar/MyCalendar"
+import MyCalendar from "../components/MyCalendar/MyCalendar";
+import ReactRoundedImage from "react-rounded-image";
+import { toast } from "react-toastify";
+
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -25,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     width: 20,
     height: 20,
   },
-  
 }));
 
 function handleClick(event) {
@@ -40,7 +42,6 @@ const MainPage = (props) => {
   const [tipoPerfil, setTipoPerfil] = useState("");
   const { user } = useSelector((state) => ({ ...state }));
   const [name, setName] = useState("");
-  const [showImg, setShowImg] = useState("");
 
   const classes = useStyles();
 
@@ -53,8 +54,18 @@ const MainPage = (props) => {
     }
   };
 
-  const hideImg = (event) => {
-    setShowImg(false);
+  const hideImg = () => {
+    var img = document.getElementById("myimg");
+    img.src = profile;
+    toast.error(`😥 Problem uploading your profile photo! Please update on settings!`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   var docRef = db.collection("users").doc(auth.currentUser.uid);
@@ -63,7 +74,7 @@ const MainPage = (props) => {
     .get()
     .then(function (doc) {
       if (doc.exists) {
-        setTipoPerfil(doc.data().isTeacher);
+        if (doc.data) setTipoPerfil(doc.data().isTeacher);
         setName(doc.data().name);
       } else {
         console.log("No such document!");
@@ -96,64 +107,35 @@ const MainPage = (props) => {
 
         case "storage/unauthorized":
           console.log(error.code);
+          var img = document.getElementById("myimg");
+          img.src = profile;
           break;
 
         case "storage/canceled":
           console.log(error.code);
+          var img = document.getElementById("myimg");
+          img.src = profile;
           break;
 
         case "storage/unknown":
           console.log(error.code);
+          var img = document.getElementById("myimg");
+          img.src = profile;
           break;
       }
     });
 
   return (
     <>
-      <Grid alignContent="center">
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link
-            color="inherit"
-            href="/"
-            onClick={handleClick}
-            className={classes.link}
-          >
-            <HomeIcon className={classes.icon} />
-            Material-UI
-          </Link>
-          <Link
-            color="inherit"
-            href="/getting-started/installation/"
-            onClick={handleClick}
-            className={classes.link}
-          >
-            <WhatshotIcon className={classes.icon} />
-            Core
-          </Link>
-          <Typography color="textPrimary" className={classes.link}>
-            <GrainIcon className={classes.icon} />
-            Breadcrumb
-          </Typography>
-        </Breadcrumbs>
-      </Grid>
       <div className="row pt-5 pb-5">
         <div className="col text-center">
-          {showImg ? (
-            <img
-              style={{ width: "40%" }}
-              id="myimg"
-              src={urlPhoto}
-              alt="urlPhoto"
-              onError={hideImg()}
-            />
-          ) : (
             <img
               style={{ width: "40%" }}
               id="myimg"
               src={profile}
               alt="profile"
+              onError={hideImg}
             />
-          )}
         </div>
         <div className="col text-center">
           <h1>Welcome Back</h1>
@@ -187,13 +169,11 @@ const MainPage = (props) => {
       </div>
 
       <div className="cointainer2 text-center">
-        {tipoPerfil == "true" ? (
-          <SearchFirestore />
-        ) : (
-          <h3>CONTA DE ESTUDANTE</h3>
-        )}
+        {tipoPerfil == "true" ? <MenuProfessor /> : <h3>CONTA DE ESTUDANTE</h3>}
       </div>
+      <div className="pt-5 pb-5 pr-5 pl-5">
       <MyCalendar />
+      </div>
     </>
   );
 };

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { Button } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import "../../css/Register.css"
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -65,15 +67,19 @@ const Register = () => {
 
   const RegisterForm = () => (
     <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        className="form-control"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoFocus
-        placeholder="Email"
-      />
+      <TextField
+            fullWidth
+            required
+            margin="normal"
+            variant="outlined"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoFocus
+            label="Email Address"
+          />
+      <br />
       <br />
       <Button
         onClick={handleSubmit}
@@ -94,7 +100,7 @@ const Register = () => {
     <div className="container p-5">
       <div className="row">
         <div className="col-md-6 offset-md-3">
-          <h3>Create New Account</h3>
+          <Typography variant="h2">Create New Account</Typography>
           {RegisterForm()}
         </div>
       </div>

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
-
 import { auth, db } from "../firebase";
-
 import { IconButton, Badge, Input, Button } from "@material-ui/core";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
@@ -13,28 +11,42 @@ import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
 import ChatIcon from "@material-ui/icons/Chat";
-
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { message } from "antd";
 import "antd/dist/antd.css";
-
 import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
-
 import "../css/Room.css";
+import * as handpose from "@tensorflow-models/handpose"
+import * as tf from "@tensorflow/tfjs"
+import '@tensorflow/tfjs-backend-webgl';
+import '@tensorflow/tfjs-backend-cpu';
 
-const server_url = process.env.NODE_ENV === 'production' ? 'https://remotesports.herokuapp.com/' : "http://localhost:8000"
+const server_url =
+  process.env.NODE_ENV === "production"
+    ? "https://remotesports.herokuapp.com/"
+    : "http://localhost:8000";
 
 var connections = {};
 const peerConnectionConfig = {
-  iceServers: [
-    // { 'urls': 'stun:stun.services.mozilla.com' },
-    { urls: "stun:stun.l.google.com:19302" },
-  ],
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
-var socket = null;
+var socket = server_url;
 var socketId = null;
 var elms = 0;
+
+var videoGrid = document.getElementById("video-div");
+
+let videoWidth, videoHeight, rafID, ctx, canvas, fingerLookupIndices = {
+  thumb: [0, 1, 2, 3, 4],
+  indexFinger: [0, 5, 6, 7, 8],
+  middleFinger: [0, 9, 10, 11, 12],
+  ringFinger: [0, 13, 14, 15, 16],
+  pinky: [0, 17, 18, 19, 20]
+};  // for rendering each finger as a polyline
+
 
 class Room extends Component {
   constructor(props) {
@@ -46,6 +58,8 @@ class Room extends Component {
 
     this.videoAvailable = false;
     this.audioAvailable = false;
+
+    this.canvasRef = React.createRef();
 
     this.state = {
       video: false,
@@ -63,26 +77,6 @@ class Room extends Component {
 
     this.getPermissions();
   }
-
-  // Obter o Nome de Utilizador
-  getUsername = () => {
-    if (auth.currentUser) {
-      db.collection("users")
-        .doc(auth.currentUser.uid)
-        .get()
-        .then(function (doc) {
-          if (doc.exists) {
-            this.setState({ username: doc.data().name });
-            return false;
-          }
-        })
-        .catch(function (error) {
-          console.log(error.message)
-        });
-    } else {
-      return true;
-    }
-  };
 
   getPermissions = async () => {
     try {
@@ -588,14 +582,14 @@ class Room extends Component {
             option.value = deviceInfo.deviceId;
 
             //  console.log(option.value);
-            
+
             select1.appendChild(option);
           } else if (deviceInfo.kind === "videoinput") {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
-            
+
             //  console.log(option.value);
-           
+
             select3.appendChild(option);
           }
         });
@@ -618,6 +612,38 @@ class Room extends Component {
     // return matchChrome !== null || matchFirefox !== null
     return matchChrome !== null;
   };
+
+  main = async () => {
+    console.log("Loading handpose model...")
+    await tf.setBackend('webgl');
+    model = await handpose.load();
+    let video;
+  
+    try {
+      video = await loadVideo();
+    } catch (e) {
+      alert(e.message)
+      throw e;
+    }
+  
+    videoWidth  = video.videoWidth;
+    videoHeight = video.videoHeight;
+  
+    console.log("Setting up canvas...")
+    canvas = document.getElementById('canvas');
+    canvas.width  = videoWidth;
+    canvas.height = videoHeight;
+  
+    ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, videoWidth, videoHeight);
+    ctx.strokeStyle = 'red';
+    ctx.fillStyle   = 'red';
+  
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  
+    landmarksRealTime(video);
+  }
 
   render() {
     if (this.isChrome() === false) {
@@ -656,14 +682,13 @@ class Room extends Component {
                 justifyContent: "center",
               }}
             >
-              <p
-                style={{ margin: 0, fontWeight: "bold", paddingRight: "50px" }}
-              >
+              <Typography component="h1" variant="h5">
                 Set your username
-              </p>
-              <Input
-                placeholder="Username"
+              </Typography>
+              <TextField
+                fullWidth
                 required
+                label="Username"
                 value={this.state.username}
                 onChange={(e) => this.handleUsername(e)}
               />
@@ -681,7 +706,7 @@ class Room extends Component {
               style={{
                 justifyContent: "center",
                 textAlign: "center",
-                paddingTop: "40px",
+                paddingTop: "10px",
               }}
             >
               <video
@@ -693,11 +718,10 @@ class Room extends Component {
                   borderStyle: "solid",
                   borderColor: "#bdbdbd",
                   objectFit: "fill",
-                  width: "80%",
+                  width: "50%",
                   height: "30%",
                 }}
               ></video>
-              
             </div>
           </div>
         ) : (
@@ -827,17 +851,15 @@ class Room extends Component {
               </div>
 
               <div className="pt-4 pb-4">
-              <div>
-                <label for="select1">Audio Source: </label>
-                <select id="select1" className="pr-3">
-                </select>
-              </div>
-              <div>
-                <label for="select3">Video Source: </label>
-                <select id="select3" className="pr-3">
-                </select>
-                {this.enumerateDevicesFunction()}
-              </div>
+                <div>
+                  <label for="select1">Audio Source: </label>
+                  <select id="select1" className="pr-3"></select>
+                </div>
+                <div>
+                  <label for="select3">Video Source: </label>
+                  <select id="select3" className="pr-3"></select>
+                  {this.enumerateDevicesFunction()}
+                </div>
               </div>
 
               <Row

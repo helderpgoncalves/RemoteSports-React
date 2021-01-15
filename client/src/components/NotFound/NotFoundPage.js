@@ -40,7 +40,7 @@ class NotFoundPage extends Component {
     const { history } = this.props;
 
     return (
-      <div className="flex main-wrap justifyCenter">
+      <div className="text-center flex main-wrap justifyCenter">
         <div className="main-container flex">
           <CSSTransition
             in={this.state.pageLoaded}
@@ -57,7 +57,7 @@ class NotFoundPage extends Component {
           >
             {(state) => (
               <div
-                className="fourOhFour flex justifyCenter"
+                className="text-center fourOhFour flex justifyCenter"
                 onMouseMove={(e) => {
                   this.onMouseMove(e);
                 }}
@@ -85,7 +85,7 @@ class NotFoundPage extends Component {
             unmountOnExit
           >
             {(state) => (
-              <div className="error-text flex justifyCenter">
+              <div className="text-center error-text flex justifyCenter">
                 <h3>Oops… Looks like you got lost</h3>
                 <Link to="/" onClick={this.redirectToHome}>HOME</Link>
               </div>
