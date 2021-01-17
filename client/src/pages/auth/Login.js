@@ -16,7 +16,6 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     width: "30%",
-    backgroundColor: theme.palette.background.paper,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -88,8 +86,9 @@ const Login = ({ history }) => {
   };
 
   const LoginForm = () => (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
+    <div className="pt-5">
+    <Container component="main" maxWidth="xs" id="login-container">
+      <div className={classes.paper}> 
         <Avatar
           alt="Remy Sharp"
           src={logo}
@@ -163,6 +162,7 @@ const Login = ({ history }) => {
         </form>
       </div>
     </Container>
+    </div>
   );
 
   return <div className="wrapper">{LoginForm()}</div>;

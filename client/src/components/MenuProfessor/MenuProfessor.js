@@ -1,42 +1,25 @@
 import React, { Component } from "react";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import AsyncSelect from "react-select/async";
-import { Button, TableRow } from "@material-ui/core";
-
+import { Button, TableRow, TextField } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
-
+import ClassIcon from "@material-ui/icons/Class";
 import { DeleteOutlined } from "@ant-design/icons";
-import ICalendar from "../iCalendar/ICalendar";
+import { toast } from "react-toastify";
+import CreateLesson from "../CreateLesson/CreateLesson";
 
 class MenuProfessor extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      selectedTag: [],
-      data: [],
+      students: [],
+      nameClass: "",
     };
   }
-
-  mySubmitHandler = (event) => {
-    const docRef = db.collection("users").doc(event.value);
-
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          this.state.data.push(doc.data());
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
-  };
 
   loadOptions = async (inputValue) => {
     inputValue = inputValue.toLowerCase().replace(/\W/g, "");
@@ -51,7 +34,6 @@ class MenuProfessor extends Component {
             let recommendedTags = [];
             docs.forEach(function (doc) {
               const tag = {
-                email: doc.data().email,
                 name: doc.data().name,
                 school: doc.data().school,
                 value: doc.id,
@@ -69,34 +51,84 @@ class MenuProfessor extends Component {
 
   handleOnChange = (tags) => {
     this.setState({
-      selectedTag: [tags],
+      students: [...this.state.students, tags],
     });
   };
 
-  handleDeleteRow =(e)  => {
-    var array = [...this.state.selectedTag]; // make a separate copy of the array
-    var index = array.indexOf(e.target.value);
-    if (index !== -1) {
-      array.splice(index, 1);
-      this.setState({ selectedTag: array });
-    }
-  }
+  handleDeleteRow = (e) => {
+    var array = [...this.state.students]; // make a separate copy of the array
+
+    array.splice(e, 1);
+
+    this.setState({
+      students: array,
+    });
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  createTurma = (e) => {
+    e.preventDefault();
+
+    const turma = this.state;
+
+    var docRef = db.collection("users").doc(auth.currentUser.uid);
+    docRef
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          var docRef2 = db.collection("classes").doc(turma.nameClass.toUpperCase())
+
+          docRef2
+            .set({
+              students: turma.students,
+              school: doc.data().school,
+              professor: doc.data().email
+            })
+            .then(function () {
+              toast.success(`🤪 Excellent! You create new class!`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            })
+            .catch(function (error) {
+              console.error("Error writing document: ", error);
+              toast.error(error);
+            });
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
+        toast.error(error);
+      });
+  };
 
   getRows = () => {
     let rows = [];
 
-    if (this.state.selectedTag)
-      this.state.selectedTag.map((element) => {
+    if (this.state.students)
+      this.state.students.map((element) => {
         rows.push(
-          <TableRow key={element.id}>
-            <td>{element.name}</td>
-            <td>{element.email}</td>
-            <td>{element.school}</td>
-            <td>
+          <TableRow key={element.label}>
+            <TableCell>{element.name}</TableCell>
+            <TableCell>{element.label}</TableCell>
+            <TableCell>{element.school}</TableCell>
+            <TableCell>
               <Button onClick={(element) => this.handleDeleteRow(element)}>
                 <DeleteOutlined />
               </Button>
-            </td>
+            </TableCell>
           </TableRow>
         );
       });
@@ -113,21 +145,49 @@ class MenuProfessor extends Component {
             onChange={this.handleOnChange}
           />
         </div>
-        <div className="pl-5 pr-5 pt-5">
-          <h4 className="text-center">CLASS</h4>
+        <div className="pl-5 pr-5 pt-4">
           <Table>
-            <thead>
+            <TableHead>
               <TableRow>
-                <th>Name</th>
-                <th>Email</th>
-                <th>School</th>
-                <th>Delete</th>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>School</TableCell>
+                <TableCell>Delete</TableCell>
               </TableRow>
-            </thead>
+            </TableHead>
             <TableBody>{this.getRows()}</TableBody>
           </Table>
+          <br />
+          <form>
+            <TextField
+              id="mainInput"
+              fullWidth
+              required
+              margin="normal"
+              variant="outlined"
+              type="text"
+              name="nameClass"
+              onChange={(e) => this.handleChange(e)}
+              label="Class Name"
+            />
+            <Button
+              onClick={(e) => this.createTurma(e)}
+              disabled={
+                Object.keys(this.state.students).length == 0 ||
+                !this.state.nameClass
+              }
+              variant="contained"
+              color="primary"
+              size="large"
+              startIcon={<ClassIcon />}
+            >
+              CREATE CLASS
+            </Button>
+          </form>
         </div>
-        <ICalendar />
+        <div className="pt-5">
+          <CreateLesson />
+        </div>
       </>
     );
   }

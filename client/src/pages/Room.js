@@ -19,10 +19,7 @@ import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
-import * as handpose from "@tensorflow-models/handpose"
-import * as tf from "@tensorflow/tfjs"
-import '@tensorflow/tfjs-backend-webgl';
-import '@tensorflow/tfjs-backend-cpu';
+
 
 const server_url =
   process.env.NODE_ENV === "production"
@@ -33,20 +30,9 @@ var connections = {};
 const peerConnectionConfig = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 };
-var socket = server_url;
+var socket = io(server_url);
 var socketId = null;
 var elms = 0;
-
-var videoGrid = document.getElementById("video-div");
-
-let videoWidth, videoHeight, rafID, ctx, canvas, fingerLookupIndices = {
-  thumb: [0, 1, 2, 3, 4],
-  indexFinger: [0, 5, 6, 7, 8],
-  middleFinger: [0, 9, 10, 11, 12],
-  ringFinger: [0, 13, 14, 15, 16],
-  pinky: [0, 17, 18, 19, 20]
-};  // for rendering each finger as a polyline
-
 
 class Room extends Component {
   constructor(props) {
@@ -612,38 +598,6 @@ class Room extends Component {
     // return matchChrome !== null || matchFirefox !== null
     return matchChrome !== null;
   };
-
-  main = async () => {
-    console.log("Loading handpose model...")
-    await tf.setBackend('webgl');
-    model = await handpose.load();
-    let video;
-  
-    try {
-      video = await loadVideo();
-    } catch (e) {
-      alert(e.message)
-      throw e;
-    }
-  
-    videoWidth  = video.videoWidth;
-    videoHeight = video.videoHeight;
-  
-    console.log("Setting up canvas...")
-    canvas = document.getElementById('canvas');
-    canvas.width  = videoWidth;
-    canvas.height = videoHeight;
-  
-    ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, videoWidth, videoHeight);
-    ctx.strokeStyle = 'red';
-    ctx.fillStyle   = 'red';
-  
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
-  
-    landmarksRealTime(video);
-  }
 
   render() {
     if (this.isChrome() === false) {

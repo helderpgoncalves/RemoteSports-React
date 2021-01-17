@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import Modal from "react-awesome-modal";
 import iCalendar from '../../assets/iCalendar.png'
 
+
 export default class ICalendar extends Component {
   constructor(props) {
     super(props);
@@ -97,7 +98,7 @@ export default class ICalendar extends Component {
               color="primary"
               style={{ margin: "20px" }}
             >
-              Create Class
+              Create Lesson
             </Button>
           </form>
         </div>
