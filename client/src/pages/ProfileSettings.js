@@ -1,16 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import { auth, db, storage } from "../firebase";
 import profile from "../assets/blankprofilepicture.png";
 
 const ProfileSettings = ({ history }) => {
   var docRef = db.collection("users").doc(auth.currentUser.uid);
+  const [user, setUser] = useState("");
 
   docRef
     .get()
     .then(function (doc) {
       if (doc.exists) {
-        setTipoPerfil(doc.data().isTeacher);
-        setName(doc.data().name);
+        setUser(doc.data());
       } else {
         console.log("No such document!");
       }
@@ -58,6 +58,7 @@ const ProfileSettings = ({ history }) => {
       <div className="text-center pt-5">
       <img style={{ width: "40%" }} id="myimg" src={profile} alt="profile" />
       <h1>OLÁ</h1>
+      <h1>Ola eu sou o {user.name}</h1>
       </div>
     </>
   );

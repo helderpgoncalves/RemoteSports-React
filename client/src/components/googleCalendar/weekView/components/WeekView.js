@@ -74,10 +74,6 @@ class WeekView extends Component {
     });
   };
 
-  /**
-   * Adds the new event and closes the add event modal
-   * @param {string} title - Title of the new event
-  */
   onOkAddEventModal = title => {
     this.props.onNewEvent ({
       title,
@@ -89,10 +85,6 @@ class WeekView extends Component {
     });
   };
 
-  /**
-   * Saves the timeStamps of the new event in the state
-   * @param {arr: moment, moment} - Array containing start and end date of the new event
-  */
   onCurrentEventTimeChange = dates => {
     this.setState ({
       eventStart: +dates[0],

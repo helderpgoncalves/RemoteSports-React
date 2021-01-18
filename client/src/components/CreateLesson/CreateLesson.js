@@ -18,6 +18,7 @@ export default class ICalendar extends Component {
       endTime: "",
       location: "",
     };
+
   }
 
   openModal() {
@@ -30,6 +31,17 @@ export default class ICalendar extends Component {
     this.setState({
       visible: false,
     });
+    
+    toast.success(`🧑🏼‍🏫 Class Schedule Create with Success!`, {
+      position: "top-right",
+      autoClose: 7000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+
   }
 
   handleChange = (event) => {
@@ -43,15 +55,6 @@ export default class ICalendar extends Component {
 
     this.openModal();
 
-    toast.success(`🧑🏼‍🏫 Class Schedule Create with Success!`, {
-      position: "top-right",
-      autoClose: 7000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
   };
 
   render() {
@@ -110,14 +113,14 @@ export default class ICalendar extends Component {
             effect="fadeInUp"
             onClickAway={() => this.closeModal()}
           >
-            <div>
-              <h2>Success Creating the Class</h2>
-              <img style={{ width: "50%" }} src={iCalendar} alt="iCalendar" />
+            <div className="pb-3">
+              <h3 className="pt-3">Success Creating the Class</h3>
+              <img style={{ width: "40%" }} src={iCalendar} alt="iCalendar" />
               <ICalendarLink event={this.state}>Export to iCalendar</ICalendarLink> <br /> <br />
-              <a href="javascript:void(0);" onClick={() => this.closeModal()}>
+              <Button variant="contained" color="secondary" onClick={() => this.closeModal()}>
                 Close
-              </a>
-            </div>
+              </Button>
+            </div> 
           </Modal>
         </div>
       </>

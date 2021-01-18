@@ -39,8 +39,14 @@ const MainPage = (props) => {
     .get()
     .then(function (doc) {
       if (doc.exists) {
-        if (doc.data) setTipoPerfil(doc.data().isTeacher);
+        if (doc.data){
+        setTipoPerfil(doc.data().isTeacher);
         setName(doc.data().name);
+        const email = JSON.stringify(doc.data().email);
+        const isTeacher = JSON.stringify(doc.data().isTeacher);
+        localStorage.setItem('isTeacher', isTeacher);
+        localStorage.setItem('email', email);
+      }
       } else {
         console.log("No such document!");
       }
@@ -106,6 +112,7 @@ const MainPage = (props) => {
           {name}
         </Typography>
       </div>
+      <hr id="hr"/>
       <div className="text-center" id="joinRoom"
       >
         <p style={{alignContent: "center", margin: 0, fontWeight: "bold", paddingRight: "50px" }}>
@@ -122,10 +129,9 @@ const MainPage = (props) => {
           Go
         </Button>
       </div>
-      <div className="cointainer2 text-center">
+      <div className="cointainer2 text-center pb-5">
         {tipoPerfil == "true" ? <MenuProfessor /> : <h3>CONTA DE ESTUDANTE</h3>}
       </div>
-        <GoogleCalendar />
     </>
   );
 };

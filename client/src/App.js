@@ -12,6 +12,7 @@ import Room from "./pages/Room";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ProfileSettings from "./pages/ProfileSettings";
 import NotFoundPage from "./components/NotFound/NotFoundPage";
+import GoogleCalendar from "./components/googleCalendar/GoogleCalendar"
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,6 +51,7 @@ const App = () => {
         <Route excat path="/register/complete/" component={RegisterComplete} />
         <Route excat path="/forgot/password" component={ForgotPassword} />
         <Route excat path="/settings" component={ProfileSettings} />
+        <Route excat path="/calendar" component={GoogleCalendar} />
         <Route path="/room/:roomID" component={Room} />
         <Route component={NotFoundPage} />
       </Switch>

@@ -8,6 +8,7 @@ import {
   UserAddOutlined,
   LogoutOutlined,
   SettingOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
@@ -17,7 +18,6 @@ import { auth } from "../../firebase";
 import "./Header.css";
 
 const { SubMenu } = Menu; // Menu.SubMenu também de pode escrever isto
-
 
 const Header = () => {
   //Atribuir algum valor
@@ -46,7 +46,7 @@ const Header = () => {
   const goMainPage = () => {
     history.push("/mainpage");
   };
-  
+
   return (
     <>
       <Menu
@@ -87,6 +87,9 @@ const Header = () => {
               className="float-right"
               onTitleClick={goMainPage}
             >
+              <Menu.Item icon={<CalendarOutlined />}>
+                <Link to="/calendar">My Calendar</Link>
+              </Menu.Item>
               <Menu.Item icon={<SettingOutlined />}>
                 <Link to="/settings">Profile Details</Link>
               </Menu.Item>
@@ -94,8 +97,17 @@ const Header = () => {
                 Logout
               </Menu.Item>
             </SubMenu>
-            <Avatar className="float-right" style={{transform: 'translate(13px, 7px)',  color: '#f56a00', backgroundColor: '#fde3cf' }}>{user.email[0].toUpperCase()}</Avatar>
-          </> 
+            <Avatar
+              className="float-right"
+              style={{
+                transform: "translate(13px, 7px)",
+                color: "#f56a00",
+                backgroundColor: "#fde3cf",
+              }}
+            >
+              {user.email[0].toUpperCase()}
+            </Avatar>
+          </>
         )}
       </Menu>
     </>

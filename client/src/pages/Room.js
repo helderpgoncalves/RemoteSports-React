@@ -622,20 +622,9 @@ class Room extends Component {
     return (
       <div>
         {this.state.askForUsername === true ? (
-          <div>
+          <div className="card card-1">
             <div
-              style={{
-                background: "white",
-                width: "30%",
-                height: "auto",
-                padding: "20px",
-                minWidth: "400px",
-                textAlign: "center",
-                margin: "auto",
-                marginTop: "50px",
-                justifyContent: "center",
-              }}
-            >
+            className="text-center">
               <Typography component="h1" variant="h5">
                 Set your username
               </Typography>
@@ -672,7 +661,7 @@ class Room extends Component {
                   borderStyle: "solid",
                   borderColor: "#bdbdbd",
                   objectFit: "fill",
-                  width: "50%",
+                  width: "80%",
                   height: "30%",
                 }}
               ></video>
