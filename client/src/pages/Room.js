@@ -7,6 +7,8 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
 import MicOffIcon from "@material-ui/icons/MicOff";
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
+import StopIcon from '@material-ui/icons/Stop';
 import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
@@ -24,7 +26,7 @@ import "../css/Room.css";
 const server_url =
   process.env.NODE_ENV === "production"
     ? "https://remotesports.herokuapp.com/"
-    : "http://localhost:8000";
+    : "http://localhost:5000";
 
 var connections = {};
 const peerConnectionConfig = {
@@ -463,6 +465,9 @@ class Room extends Component {
     });
   };
 
+  startRecord = () => {
+    alert('Olá')
+  }
   silence = () => {
     let ctx = new AudioContext();
     let oscillator = ctx.createOscillator();
@@ -622,7 +627,7 @@ class Room extends Component {
     return (
       <div>
         {this.state.askForUsername === true ? (
-          <div className="card card-1">
+          <div className="card1 card-2">
             <div
             className="text-center">
               <Typography component="h1" variant="h5">
@@ -661,7 +666,7 @@ class Room extends Component {
                   borderStyle: "solid",
                   borderColor: "#bdbdbd",
                   objectFit: "fill",
-                  width: "80%",
+                  width: "100%",
                   height: "30%",
                 }}
               ></video>
@@ -700,6 +705,13 @@ class Room extends Component {
                 onClick={this.handleAudio}
               >
                 {this.state.audio === true ? <MicIcon /> : <MicOffIcon />}
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={this.startRecord}
+              >
+                <PlayCircleFilledWhiteIcon />
               </IconButton>
 
               {this.state.screenAvailable === true ? (

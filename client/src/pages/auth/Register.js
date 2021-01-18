@@ -84,7 +84,6 @@ const Register = () => {
       <Button
         onClick={handleSubmit}
         type="primary"
-        className="mb-3"
         shape="round"
         block
         icon={<UserAddOutlined />}
@@ -96,14 +95,10 @@ const Register = () => {
   );
 
   return (
-    <div className="wrapper">
-    <div className="container p-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <Typography variant="h2">Create New Account</Typography>
+    <div className="text-center">
+    <div id="register-container">
+          <Typography variant="h3">Create New Account</Typography>
           {RegisterForm()}
-        </div>
-      </div>
     </div>
     </div>
   );

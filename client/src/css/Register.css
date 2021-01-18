@@ -1,3 +1,10 @@
-.wrapper {
-    min-height: calc(100vh - 70px);
-}
+#register-container {
+    width: 430px;
+    height: 400px;
+    padding: 80px 35px 35px 35px;
+    border-radius: 50px;
+    margin: 50px auto;
+    background: #ecf0f3;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff;
+  }
+  

@@ -70,12 +70,12 @@ export default function Album() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary" onClick={create}>
+                  <Button variant="contained" color="secondary" onClick={create}>
                     Start Meeting
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" onClick={register} color="primary">
+                  <Button variant="outlined" onClick={register} color="secondary">
                     Explore
                   </Button>
                 </Grid>

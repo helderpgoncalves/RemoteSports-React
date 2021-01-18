@@ -4,10 +4,12 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { toast } from "react-toastify";
 import Modal from "react-awesome-modal";
-import iCalendar from '../../assets/iCalendar.png'
+import iCalendar from "../../assets/iCalendar.png";
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import AddToGoogleCalendar from "../Calendar/AddToGoogleCalendar";
+import "../CreateLesson/CreateLesson.css"
 
-
-export default class ICalendar extends Component {
+export default class CreateLesson extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +18,8 @@ export default class ICalendar extends Component {
       description: "",
       startTime: "",
       endTime: "",
-      location: "",
+      location: window.location.origin,
     };
-
   }
 
   openModal() {
@@ -31,7 +32,7 @@ export default class ICalendar extends Component {
     this.setState({
       visible: false,
     });
-    
+
     toast.success(`🧑🏼‍🏫 Class Schedule Create with Success!`, {
       position: "top-right",
       autoClose: 7000,
@@ -41,7 +42,6 @@ export default class ICalendar extends Component {
       draggable: true,
       progress: undefined,
     });
-
   }
 
   handleChange = (event) => {
@@ -54,16 +54,29 @@ export default class ICalendar extends Component {
     e.preventDefault();
 
     this.openModal();
-
   };
 
   render() {
+    const dados = this.state;
+
+    const ical = {
+      title: dados.title,
+      description: dados.description,
+      location: "",
+      startTime: dados.startTime,
+      endTime: dados.endTime,
+    };
+
     return (
       <>
-        <div className="text-center">
-          <form onSubmit={this.classCreate}>
+        <div className="card card-1">
+          <form onSubmit={this.classCreate} style={{margin: "20px"}}>
             <TextField
               id="cadeira"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              type="text"
               label="Class Name"
               name="title"
               required
@@ -75,7 +88,11 @@ export default class ICalendar extends Component {
 
             <TextField
               id="descricao"
-              label="Description"
+              fullWidth
+              margin="normal"
+              type="text"
+              variant="outlined"
+              label="Class Description"
               name="description"
               onChange={this.handleChange}
             />
@@ -84,21 +101,41 @@ export default class ICalendar extends Component {
             <br />
 
             <TextField
+              fullWidth
+              variant="outlined"
+              required
               id="datetime-local"
-              label="Class Schedule"
+              label="Class Schedule Start"
               onChange={this.handleChange}
               type="datetime-local"
               name="startTime"
-              defaultValue="2021-01-24T10:30"
+              defaultValue=""
               InputLabelProps={{
                 shrink: true,
               }}
             />
-
+            <br />
+            <br />
+            <TextField
+              fullWidth
+              variant="outlined"
+              required
+              id="datetime"
+              label="Class Schedule End"
+              onChange={this.handleChange}
+              type="datetime-local"
+              name="endTime"
+              defaultValue=""
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <br />
             <Button
               type="submit"
               variant="contained"
               color="primary"
+              startIcon={<ScheduleIcon />}
               style={{ margin: "20px" }}
             >
               Create Lesson
@@ -109,18 +146,31 @@ export default class ICalendar extends Component {
           <Modal
             visible={this.state.visible}
             width="400"
-            height="300"
+            height="380"
             effect="fadeInUp"
             onClickAway={() => this.closeModal()}
           >
             <div className="pb-3">
               <h3 className="pt-3">Success Creating the Class</h3>
-              <img style={{ width: "40%" }} src={iCalendar} alt="iCalendar" />
-              <ICalendarLink event={this.state}>Export to iCalendar</ICalendarLink> <br /> <br />
-              <Button variant="contained" color="secondary" onClick={() => this.closeModal()}>
-                Close
-              </Button>
-            </div> 
+              <img
+                style={{ width: "35%" }}
+                src={iCalendar}
+                alt="iCalendar"
+              />
+              <br />
+              <Button variant="contained" color="primary"> 
+              <ICalendarLink style={{color: "white"}} event={ical}>Export to iCalendar</ICalendarLink></Button>
+              <br /> <br />
+              <AddToGoogleCalendar data={this.state} />
+              <br />
+            </div>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => this.closeModal()}
+            >
+              Close
+            </Button>
           </Modal>
         </div>
       </>

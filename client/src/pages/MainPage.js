@@ -6,11 +6,7 @@ import MenuProfessor from "../components/MenuProfessor/MenuProfessor";
 import { useSelector } from "react-redux";
 import { auth, db, storage } from "../firebase";
 import profile from "../assets/blankprofilepicture.png";
-import { makeStyles } from "@material-ui/core/styles";
-import GoogleCalendar from "../components/googleCalendar/GoogleCalendar";
-import { toast } from "react-toastify";
 import Typography from "@material-ui/core/Typography";
-
 
 const MainPage = (props) => {
   const [url, setURL] = useState("");
@@ -39,14 +35,14 @@ const MainPage = (props) => {
     .get()
     .then(function (doc) {
       if (doc.exists) {
-        if (doc.data){
-        setTipoPerfil(doc.data().isTeacher);
-        setName(doc.data().name);
-        const email = JSON.stringify(doc.data().email);
-        const isTeacher = JSON.stringify(doc.data().isTeacher);
-        localStorage.setItem('isTeacher', isTeacher);
-        localStorage.setItem('email', email);
-      }
+        if (doc.data) {
+          setTipoPerfil(doc.data().isTeacher);
+          setName(doc.data().name);
+          const email = JSON.stringify(doc.data().email);
+          const isTeacher = JSON.stringify(doc.data().isTeacher);
+          localStorage.setItem("isTeacher", isTeacher);
+          localStorage.setItem("email", email);
+        }
       } else {
         console.log("No such document!");
       }
@@ -100,7 +96,7 @@ const MainPage = (props) => {
     <>
       <div className="text-center pt-3">
         <img
-          style={{ width: 250, height: 250, borderRadius: "50%"}}
+          style={{ width: 250, height: 250, borderRadius: "50%" }}
           id="myimg"
           src={profile}
           alt="profile"
@@ -112,10 +108,16 @@ const MainPage = (props) => {
           {name}
         </Typography>
       </div>
-      <hr id="hr"/>
-      <div className="text-center" id="joinRoom"
-      >
-        <p style={{alignContent: "center", margin: 0, fontWeight: "bold", paddingRight: "50px" }}>
+      <hr id="hr" />
+      <div className="text-center" id="joinRoom">
+        <p
+          style={{
+            alignContent: "center",
+            margin: 0,
+            fontWeight: "bold",
+            paddingRight: "50px",
+          }}
+        >
           Start or join a meeting
         </p>
         <Input placeholder="URL" onChange={(e) => setURL(e.target.value)} />

@@ -49,22 +49,21 @@ select {
     border-radius: 50px;
   }
 
-  .card {
+  .card1 {
     background: #ecf0f3;
     border-radius: 50px;
     display:block;
-    width: 430px;
-    height: 480px;
-    margin: 120px auto;
-    margin-bottom: 100px;
-    padding: 80px 35px 35px 35px;
+    width: 500px;
+    height: 550px;
+    margin: 50px auto;
+    padding: 80px 50px 35px 50px;
   }
   
-  .card-1 {
+  .card-2 {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   }
   
-  .card-1:hover {
+  .card-2:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
