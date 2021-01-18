@@ -5,9 +5,9 @@ import { Button } from "@material-ui/core";
 import { toast } from "react-toastify";
 import Modal from "react-awesome-modal";
 import iCalendar from "../../assets/iCalendar.png";
-import ScheduleIcon from '@material-ui/icons/Schedule';
+import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddToGoogleCalendar from "../Calendar/AddToGoogleCalendar";
-import "../CreateLesson/CreateLesson.css"
+import "../CreateLesson/CreateLesson.css";
 
 export default class CreateLesson extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ export default class CreateLesson extends Component {
     return (
       <>
         <div className="card card-1">
-          <form onSubmit={this.classCreate} style={{margin: "20px"}}>
+          <form onSubmit={this.classCreate} style={{ margin: "20px" }}>
             <TextField
               id="cadeira"
               fullWidth
@@ -152,14 +152,13 @@ export default class CreateLesson extends Component {
           >
             <div className="pb-3">
               <h3 className="pt-3">Success Creating the Class</h3>
-              <img
-                style={{ width: "35%" }}
-                src={iCalendar}
-                alt="iCalendar"
-              />
+              <img style={{ width: "35%" }} src={iCalendar} alt="iCalendar" />
               <br />
-              <Button variant="contained" color="primary"> 
-              <ICalendarLink style={{color: "white"}} event={ical}>Export to iCalendar</ICalendarLink></Button>
+              <Button variant="contained" color="primary">
+                <ICalendarLink style={{ color: "white" }} event={ical}>
+                  Export to iCalendar
+                </ICalendarLink>
+              </Button>
               <br /> <br />
               <AddToGoogleCalendar data={this.state} />
               <br />

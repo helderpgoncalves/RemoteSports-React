@@ -7,8 +7,8 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
 import MicOffIcon from "@material-ui/icons/MicOff";
-import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
-import StopIcon from '@material-ui/icons/Stop';
+import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
+import StopIcon from "@material-ui/icons/Stop";
 import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
@@ -21,7 +21,7 @@ import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
-
+import SettingsInputSvideoIcon from "@material-ui/icons/SettingsInputSvideo";
 
 const server_url =
   process.env.NODE_ENV === "production"
@@ -39,8 +39,6 @@ var elms = 0;
 class Room extends Component {
   constructor(props) {
     super(props);
-
-    this.enumerateDevicesFunction();
 
     this.localVideoref = React.createRef();
 
@@ -329,8 +327,8 @@ class Room extends Component {
     let height = String(100 / elms) + "%";
     let width = "";
     if (elms === 0 || elms === 1) {
-      width = "100%";
-      height = "100%";
+      width = "90%";
+      height = "90%";
     } else if (elms === 2) {
       width = "45%";
       height = "100%";
@@ -343,11 +341,14 @@ class Room extends Component {
 
     let videos = main.querySelectorAll("video");
     for (let a = 0; a < videos.length; ++a) {
+      videos[a].style.setProperty("borderColor", "#001529")
+      videos[a].style.setProperty("bordeRadius", "50px")
       videos[a].style.minWidth = minWidth;
       videos[a].style.minHeight = minHeight;
       videos[a].style.setProperty("width", width);
       videos[a].style.setProperty("height", height);
     }
+    
 
     return { minWidth, minHeight, width, height };
   };
@@ -466,8 +467,8 @@ class Room extends Component {
   };
 
   startRecord = () => {
-    alert('Olá')
-  }
+    alert("Olá");
+  };
   silence = () => {
     let ctx = new AudioContext();
     let oscillator = ctx.createOscillator();
@@ -605,6 +606,8 @@ class Room extends Component {
   };
 
   render() {
+    const options = this.state.options;
+
     if (this.isChrome() === false) {
       return (
         <div
@@ -628,8 +631,7 @@ class Room extends Component {
       <div>
         {this.state.askForUsername === true ? (
           <div className="card1 card-2">
-            <div
-            className="text-center">
+            <div className="text-center">
               <Typography component="h1" variant="h5">
                 Set your username
               </Typography>
@@ -663,8 +665,9 @@ class Room extends Component {
                 autoPlay
                 muted
                 style={{
+                  borderRadius: "50px",
                   borderStyle: "solid",
-                  borderColor: "#bdbdbd",
+                  borderColor: "#001529",
                   objectFit: "fill",
                   width: "100%",
                   height: "30%",
@@ -673,19 +676,16 @@ class Room extends Component {
             </div>
           </div>
         ) : (
-          <div>
+          <div style={{ background: "#ecf0f3" }}>
             <div
               className="btn-down"
               style={{
-                backgroundColor: "whitesmoke",
-                color: "whitesmoke",
+                backgroundColor: "#001529",
+                color: "#001529",
                 textAlign: "center",
               }}
             >
-              <IconButton
-                style={{ color: "#424242" }}
-                onClick={this.handleVideo}
-              >
+              <IconButton style={{ color: "white" }} onClick={this.handleVideo}>
                 {this.state.video === true ? (
                   <VideocamIcon />
                 ) : (
@@ -700,23 +700,17 @@ class Room extends Component {
                 <CallEndIcon />
               </IconButton>
 
-              <IconButton
-                style={{ color: "#424242" }}
-                onClick={this.handleAudio}
-              >
+              <IconButton style={{ color: "white" }} onClick={this.handleAudio}>
                 {this.state.audio === true ? <MicIcon /> : <MicOffIcon />}
               </IconButton>
 
-              <IconButton
-                style={{ color: "#424242" }}
-                onClick={this.startRecord}
-              >
+              <IconButton style={{ color: "white" }} onClick={this.startRecord}>
                 <PlayCircleFilledWhiteIcon />
               </IconButton>
 
               {this.state.screenAvailable === true ? (
                 <IconButton
-                  style={{ color: "#424242" }}
+                  style={{ color: "white" }}
                   onClick={this.handleScreen}
                 >
                   {this.state.screen === true ? (
@@ -733,13 +727,17 @@ class Room extends Component {
                 color="secondary"
                 onClick={this.openChat}
               >
-                <IconButton
-                  style={{ color: "#424242" }}
-                  onClick={this.openChat}
-                >
+                <IconButton style={{ color: "white" }} onClick={this.openChat}>
                   <ChatIcon />
                 </IconButton>
               </Badge>
+
+              <IconButton
+                style={{ color: "white" }}
+                onClick={this.openSettings}
+              >
+                <SettingsInputSvideoIcon />
+              </IconButton>
             </div>
 
             <Modal
@@ -801,11 +799,10 @@ class Room extends Component {
                   onClick={this.copyUrl}
                 >
                   Copy invite link
-                </Button>{" "}
+                </Button>
                 <br />
               </div>
-
-              <div className="pt-4 pb-4">
+              <div className="pt-4">
                 <div>
                   <label for="select1">Audio Source: </label>
                   <select id="select1" className="pr-3"></select>
@@ -828,12 +825,13 @@ class Room extends Component {
                   autoPlay
                   muted
                   style={{
+                    borderRadius: "50px",
                     borderStyle: "solid",
-                    borderColor: "#bdbdbd",
+                    borderColor: "#001529",
                     margin: "10px",
                     objectFit: "fill",
-                    width: "100%",
-                    height: "100%",
+                    width: "90%",
+                    height: "90%",
                   }}
                 ></video>
               </Row>
