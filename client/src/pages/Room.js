@@ -22,6 +22,7 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
 import SettingsInputSvideoIcon from "@material-ui/icons/SettingsInputSvideo";
+import RecordRTC from 'recordrtc';
 
 const server_url =
   process.env.NODE_ENV === "production"
@@ -221,6 +222,28 @@ class Room extends Component {
     }
   };
 
+  startRecording = () => {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+        audio: true,
+      })
+      .then(async function (stream) {
+        let recorder = RecordRTC(stream, {
+          type: "video",
+        });
+        recorder.startRecording();
+
+        const sleep = (m) => new Promise((r) => setTimeout(r, m));
+        await sleep(3000);
+
+        recorder.stopRecording(function () {
+          let blob = recorder.getBlob();
+          invokeSaveAsDialog(blob);
+        });
+      });
+  };
+
   getDislayMediaSuccess = (stream) => {
     try {
       window.localStream.getTracks().forEach((track) => track.stop());
@@ -341,14 +364,13 @@ class Room extends Component {
 
     let videos = main.querySelectorAll("video");
     for (let a = 0; a < videos.length; ++a) {
-      videos[a].style.setProperty("borderColor", "#001529")
-      videos[a].style.setProperty("bordeRadius", "50px")
+      videos[a].style.setProperty("borderColor", "#001529");
+      videos[a].style.setProperty("bordeRadius", "50px");
       videos[a].style.minWidth = minWidth;
       videos[a].style.minHeight = minHeight;
       videos[a].style.setProperty("width", width);
       videos[a].style.setProperty("height", height);
     }
-    
 
     return { minWidth, minHeight, width, height };
   };
@@ -466,9 +488,6 @@ class Room extends Component {
     });
   };
 
-  startRecord = () => {
-    alert("Olá");
-  };
   silence = () => {
     let ctx = new AudioContext();
     let oscillator = ctx.createOscillator();
@@ -525,6 +544,10 @@ class Room extends Component {
   };
 
   handleUsername = (e) => this.setState({ username: e.target.value });
+
+  startRecord = () => {
+    socket.emit("message", this.state.files);
+  };
 
   sendMessage = () => {
     socket.emit("chat-message", this.state.message, this.state.username);
@@ -704,7 +727,10 @@ class Room extends Component {
                 {this.state.audio === true ? <MicIcon /> : <MicOffIcon />}
               </IconButton>
 
-              <IconButton style={{ color: "white" }} onClick={this.startRecord}>
+              <IconButton
+                style={{ color: "white" }}
+                onClick={this.startRecording}
+              >
                 <PlayCircleFilledWhiteIcon />
               </IconButton>
 
@@ -731,13 +757,6 @@ class Room extends Component {
                   <ChatIcon />
                 </IconButton>
               </Badge>
-
-              <IconButton
-                style={{ color: "white" }}
-                onClick={this.openSettings}
-              >
-                <SettingsInputSvideoIcon />
-              </IconButton>
             </div>
 
             <Modal

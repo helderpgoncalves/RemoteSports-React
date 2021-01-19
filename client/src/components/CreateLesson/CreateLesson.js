@@ -7,7 +7,7 @@ import Modal from "react-awesome-modal";
 import iCalendar from "../../assets/iCalendar.png";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddToGoogleCalendar from "../Calendar/AddToGoogleCalendar";
-import "../CreateLesson/CreateLesson.css";
+import "./CreateLesson.css";
 
 export default class CreateLesson extends Component {
   constructor(props) {
