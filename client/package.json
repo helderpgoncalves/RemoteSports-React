@@ -13,6 +13,7 @@
     "@tensorflow/tfjs": "^2.8.5",
     "antd": "^4.8.2",
     "bootstrap": "^4.5.3",
+    "fingerpose": "0.0.2",
     "firebase": "^8.0.2",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",

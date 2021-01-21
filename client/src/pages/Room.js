@@ -28,6 +28,10 @@ import BlurOffIcon from "@material-ui/icons/BlurOff";
 
 import * as handpose from "@tensorflow-models/handpose";
 import * as tf from "@tensorflow/tfjs";
+import { drawHand } from "../utilities";
+import * as fp from "fingerpose";
+import thumbs_up from "../assets/thumbs_up.png";
+import victory from "../assets/victory.png";
 
 // mimeType - The mimeType read-only property returns the MIME
 // media type that was specified when creating the
@@ -73,6 +77,11 @@ class Room extends Component {
       recording: false,
       blur: false,
       net: null,
+      emoji: null,
+      images: {
+        thumbs_up: thumbs_up,
+        victory: victory,
+      },
     };
     connections = {};
 
@@ -82,9 +91,9 @@ class Room extends Component {
   runHandpose = async () => {
     const net = await handpose.load();
     console.log("Handpose model loaded.");
-    //  Loop and detect hands
+
     setInterval(() => {
-      detect(net);
+      this.detect(net);
     }, 100);
   };
 
@@ -92,29 +101,80 @@ class Room extends Component {
     // Check data is available
     if (
       typeof this.localVideoref.current !== "undefined" &&
-      this.localVideoref.current !== null &&
-      this.localVideoref.current.video.readyState === 4
+      this.localVideoref.current !== null
     ) {
+      const videoWidth = document.getElementById("my-video").style.width;
+      const videoHeight = document.getElementById("my-video").style.height;
+
+      console.log(videoWidth);
+      console.log(videoHeight);
+
       // Get Video Properties
-      const video = this.localVideoref.current.video;
-      const videoWidth = this.localVideoref.current.video.videoWidth;
-      const videoHeight = this.localVideoref.current.video.videoHeight;
+      const video = document.getElementById("my-video");
+
+      //  const videoWidth = this.localVideoref.current.video.videoWidth;
+      //  const videoHeight = this.localVideoref.current.video.videoHeight;
 
       // Set video width
-      this.localVideoref.current.video.width = videoWidth;
-      this.localVideoref.current.video.height = videoHeight;
+      // this.localVideoref.current.video.width = videoWidth;
+      // this.localVideoref.current.video.height = videoHeight;
 
       // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
+      var canvas = document.getElementById("canvas");
+
+      canvas.style.setProperty("width", videoWidth);
+      canvas.style.setProperty("height", videoHeight);
 
       // Make Detections
       const hand = await net.estimateHands(video);
-      console.log(hand);
+      //  console.log(hand);
+
+      // add "✌🏻" and "👍" as sample gestures
+      if (hand.length > 0) {
+        const GE = new fp.GestureEstimator([
+          fp.Gestures.VictoryGesture,
+          fp.Gestures.ThumbsUpGesture,
+        ]);
+        const gesture = await GE.estimate(hand[0].landmarks, 7);
+        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
+          // console.log(gesture.gestures);
+
+          const confidence = gesture.gestures.map(
+            (prediction) => prediction.confidence
+          );
+          const maxConfidence = confidence.indexOf(
+            Math.max.apply(null, confidence)
+          );
+          // console.log(gesture.gestures[maxConfidence].name);
+          this.setState({
+            emoji: gesture.gestures[maxConfidence].name,
+          });
+
+          // TODO - MAKING - TOAST
+          //
+          // Duvidas overlay do canvas no video
+          //
+          if (this.state.emoji == "thumbs_up") {
+            toast.dark("👍", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+
+            this.setState({
+              emoji: null,
+            });
+          }
+        }
+      }
 
       // Draw mesh
-      const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand, ctx);
+      // const ctx = this.canvasRef.current.getContext("2d");
+      // drawHand(hand, ctx);
     }
   };
 
@@ -197,6 +257,18 @@ class Room extends Component {
 
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
+
+    this.runHandpose();
+
+    toast.success("👍 Thumbs Up for the Webcam for making a question!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
     this.mediaRecorder = new MediaRecorder(stream, {
       mimeType: videoType,
@@ -291,8 +363,6 @@ class Room extends Component {
     this.setState({
       blur: true,
     });
-
-    this.runHandpose();
   }
 
   stopBlur(e) {
@@ -748,7 +818,7 @@ class Room extends Component {
   };
 
   render() {
-    const { recording, videos, blur } = this.state;
+    const { recording, videos, blur, emoji } = this.state;
 
     if (this.isChrome() === false) {
       return (
@@ -1052,21 +1122,37 @@ class Room extends Component {
                       height: "90%",
                     }}
                   ></video>
-                  <canvas
-                    ref={this.canvasRef}
-                    style={{
-                      borderRadius: "50px",
-                      borderStyle: "solid",
-                      borderColor: "#001529",
-                      margin: "10px",
-                      objectFit: "fill",
-                      width: "90%",
-                      height: "90%",
-                    }}
-                  />
+                  {this.state.video && (
+                    <canvas
+                      id="canvas"
+                      ref={this.canvasRef}
+                      style={{
+                        position: "absolute",
+                        objectFit: "fill",
+                        width: "1000",
+                        height: "1000",
+                      }}
+                    />
+                  )}
                 </Row>
               </div>
             </div>
+            {emoji !== null ? (
+              <img
+                src={this.state.images[emoji]}
+                style={{
+                  position: "absolute",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  right: "32px",
+                  top: "64px",
+                  textAlign: "center",
+                  height: 100,
+                }}
+              />
+            ) : (
+              ""
+            )}
           </>
         )}
       </div>
