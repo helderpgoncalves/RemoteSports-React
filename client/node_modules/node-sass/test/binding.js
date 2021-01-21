@@ -1,11 +1,11 @@
 /*eslint new-cap: ["error", {"capIsNewExceptions": ["Color"]}]*/
 
-var assert = require('assert'),
+var assert = require('assert').strict,
   path = require('path'),
   etx = require('../lib/extensions'),
   binding = process.env.NODESASS_COV
-      ? require('../lib-cov/binding')
-      : require('../lib/binding');
+    ? require('../lib-cov/binding')
+    : require('../lib/binding');
 
 describe('binding', function() {
   describe('missing error', function() {

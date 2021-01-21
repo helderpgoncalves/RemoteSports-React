@@ -1,4 +1,4 @@
-var assert = require('assert'),
+var assert = require('assert').strict,
   fs = require('fs'),
   path = require('path'),
   read = require('fs').readFileSync,
@@ -22,7 +22,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
 
@@ -36,7 +36,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
 
@@ -50,7 +50,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
 
@@ -64,7 +64,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
 
@@ -78,7 +78,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
 
@@ -95,7 +95,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), 'div {\n\t\t\t\t\t\t\tcolor: transparent; }');
+        assert.strictEqual(data.trim(), 'div {\n\t\t\t\t\t\t\tcolor: transparent; }');
         done();
       });
 
@@ -112,7 +112,7 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), 'div {\n\r  color: transparent; }');
+        assert.strictEqual(data.trim(), 'div {\n\r  color: transparent; }');
         done();
       });
 
@@ -122,8 +122,6 @@ describe('cli', function() {
 
   describe('node-sass in.scss', function() {
     it('should compile a scss file', function(done) {
-      process.chdir(fixture('simple'));
-
       var src = fixture('simple/index.scss');
       var dest = fixture('simple/index.css');
       var bin = spawn(cli, [src, dest]);
@@ -131,14 +129,11 @@ describe('cli', function() {
       bin.once('close', function() {
         assert(fs.existsSync(dest));
         fs.unlinkSync(dest);
-        process.chdir(__dirname);
         done();
       });
     });
 
     it('should compile a scss file to custom destination', function(done) {
-      process.chdir(fixture('simple'));
-
       var src = fixture('simple/index.scss');
       var dest = fixture('simple/index-custom.css');
       var bin = spawn(cli, [src, dest]);
@@ -146,7 +141,6 @@ describe('cli', function() {
       bin.once('close', function() {
         assert(fs.existsSync(dest));
         fs.unlinkSync(dest);
-        process.chdir(__dirname);
         done();
       });
     });
@@ -163,14 +157,12 @@ describe('cli', function() {
 
       bin.stdout.setEncoding('utf8');
       bin.stdout.once('data', function(data) {
-        assert.equal(data.trim(), expected.replace(/\r\n/g, '\n'));
+        assert.strictEqual(data.trim(), expected.replace(/\r\n/g, '\n'));
         done();
       });
     });
 
     it('should compile silently using the --quiet option', function(done) {
-      process.chdir(fixture('simple'));
-
       var src = fixture('simple/index.scss');
       var dest = fixture('simple/index.css');
       var bin = spawn(cli, [src, dest, '--quiet']);
@@ -181,16 +173,13 @@ describe('cli', function() {
       });
 
       bin.once('close', function() {
-        assert.equal(didEmit, false);
+        assert.strictEqual(didEmit, false);
         fs.unlinkSync(dest);
-        process.chdir(__dirname);
         done();
       });
     });
 
     it('should still report errors with the --quiet option', function(done) {
-      process.chdir(fixture('invalid'));
-
       var src = fixture('invalid/index.scss');
       var dest = fixture('invalid/index.css');
       var bin = spawn(cli, [src, dest, '--quiet']);
@@ -201,8 +190,7 @@ describe('cli', function() {
       });
 
       bin.once('close', function() {
-        assert.equal(didEmit, true);
-        process.chdir(__dirname);
+        assert.strictEqual(didEmit, true);
         done();
       });
     });
@@ -261,7 +249,7 @@ describe('cli', function() {
       setTimeout(function() {
         fs.appendFileSync(src, 'body {}');
         setTimeout(function() {
-          assert.equal(didEmit, false);
+          assert.strictEqual(didEmit, false);
           bin.kill();
           done();
           fs.unlinkSync(src);
@@ -358,7 +346,7 @@ describe('cli', function() {
         setTimeout(function() {
           bin.kill();
           var files = fs.readdirSync(destDir);
-          assert.deepEqual(files, ['index.css']);
+          assert.deepStrictEqual(files, ['index.css']);
           rimraf(destDir, done);
         }, 200);
       }, 500);
@@ -382,7 +370,7 @@ describe('cli', function() {
         setTimeout(function () {
           bin.kill();
           var files = fs.readdirSync(destDir);
-          assert.deepEqual(files, ['foo.css', 'index.css']);
+          assert.deepStrictEqual(files, ['foo.css', 'index.css']);
           rimraf(destDir, done);
         }, 200);
       }, 500);
@@ -411,8 +399,8 @@ describe('cli', function() {
       var bin = spawn(cli, [src, '--output', path.dirname(destCss), '--source-map', destMap]);
 
       bin.once('close', function() {
-        assert.equal(read(destCss, 'utf8').trim(), expectedCss);
-        assert.equal(read(destMap, 'utf8').trim(), expectedMap);
+        assert.strictEqual(read(destCss, 'utf8').trim(), expectedCss);
+        assert.strictEqual(read(destMap, 'utf8').trim(), expectedMap);
         fs.unlinkSync(destCss);
         fs.unlinkSync(destMap);
         done();
@@ -450,8 +438,8 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(destCss, 'utf8').trim(), expectedCss);
-        assert.equal(JSON.parse(read(destMap, 'utf8')).sourceRoot, expectedUrl);
+        assert.strictEqual(read(destCss, 'utf8').trim(), expectedCss);
+        assert.strictEqual(JSON.parse(read(destMap, 'utf8')).sourceRoot, expectedUrl);
         fs.unlinkSync(destCss);
         fs.unlinkSync(destMap);
         done();
@@ -473,7 +461,7 @@ describe('cli', function() {
       });
 
       bin.once('close', function() {
-        assert.equal(result.trim().replace(/\r\n/g, '\n'), expectedCss);
+        assert.strictEqual(result.trim().replace(/\r\n/g, '\n'), expectedCss);
         done();
       });
     });
@@ -499,9 +487,9 @@ describe('cli', function() {
 
       bin.once('close', function() {
         var files = fs.readdirSync(dest).sort();
-        assert.deepEqual(files, ['one.css', 'two.css', 'nested'].sort());
+        assert.deepStrictEqual(files, ['one.css', 'two.css', 'nested'].sort());
         var nestedFiles = fs.readdirSync(path.join(dest, 'nested'));
-        assert.deepEqual(nestedFiles, ['three.css']);
+        assert.deepStrictEqual(nestedFiles, ['three.css']);
         rimraf.sync(dest);
         done();
       });
@@ -516,7 +504,7 @@ describe('cli', function() {
       bin.once('close', function() {
         var map = JSON.parse(read(fixture('input-directory/map/nested/three.css.map'), 'utf8'));
 
-        assert.equal(map.file, '../../css/nested/three.css');
+        assert.strictEqual(map.file, '../../css/nested/three.css');
         rimraf.sync(dest);
         rimraf.sync(destMap);
         done();
@@ -530,7 +518,7 @@ describe('cli', function() {
 
       bin.once('close', function() {
         var files = fs.readdirSync(dest);
-        assert.equal(files.indexOf('_skipped.css'), -1);
+        assert.strictEqual(files.indexOf('_skipped.css'), -1);
         rimraf.sync(dest);
         done();
       });
@@ -546,7 +534,7 @@ describe('cli', function() {
 
       bin.once('close', function() {
         var files = fs.readdirSync(dest);
-        assert.deepEqual(files, ['one.css', 'two.css']);
+        assert.deepStrictEqual(files, ['one.css', 'two.css']);
         rimraf.sync(dest);
         done();
       });
@@ -570,7 +558,7 @@ describe('cli', function() {
 
       bin.once('close', function(code) {
         assert.notStrictEqual(code, 0);
-        assert.equal(glob.sync(fixture('input-directory/**/*.css')).length, 0);
+        assert.strictEqual(glob.sync(fixture('input-directory/**/*.css')).length, 0);
         done();
       });
     });
@@ -585,9 +573,9 @@ describe('cli', function() {
 
       bin.once('close', function() {
         var files = fs.readdirSync(outputDir).sort();
-        assert.deepEqual(files, ['one.css', 'two.css', 'nested'].sort());
+        assert.deepStrictEqual(files, ['one.css', 'two.css', 'nested'].sort());
         var nestedFiles = fs.readdirSync(path.join(outputDir, 'nested'));
-        assert.deepEqual(nestedFiles, ['three.css']);
+        assert.deepStrictEqual(nestedFiles, ['three.css']);
         rimraf.sync(outputDir);
         fs.unlinkSync(symlink);
         done();
@@ -644,7 +632,8 @@ describe('cli', function() {
   describe('importer', function() {
     var dest = fixture('include-files/index.css');
     var src = fixture('include-files/index.scss');
-    var expected = read(fixture('include-files/expected-importer.css'), 'utf8').trim().replace(/\r\n/g, '\n');
+    var expectedData = read(fixture('include-files/expected-data-importer.css'), 'utf8').trim().replace(/\r\n/g, '\n');
+    var expectedFile = read(fixture('include-files/expected-file-importer.css'), 'utf8').trim().replace(/\r\n/g, '\n');
 
     it('should override imports and fire callback with file and contents', function(done) {
       var bin = spawn(cli, [
@@ -653,7 +642,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expectedData);
         fs.unlinkSync(dest);
         done();
       });
@@ -667,7 +656,7 @@ describe('cli', function() {
 
       bin.once('close', function() {
         if (fs.existsSync(dest)) {
-          assert.equal(read(dest, 'utf8').trim(), '');
+          assert.strictEqual(read(dest, 'utf8').trim(), expectedFile);
           fs.unlinkSync(dest);
         }
 
@@ -682,7 +671,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expectedData);
         fs.unlinkSync(dest);
         done();
       });
@@ -695,7 +684,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expectedData);
         fs.unlinkSync(dest);
         done();
       });
@@ -709,7 +698,7 @@ describe('cli', function() {
 
       bin.once('close', function() {
         if (fs.existsSync(dest)) {
-          assert.equal(read(dest, 'utf8').trim(), '');
+          assert.strictEqual(read(dest, 'utf8').trim(), expectedFile);
           fs.unlinkSync(dest);
         }
 
@@ -724,7 +713,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expectedData);
         fs.unlinkSync(dest);
         done();
       });
@@ -737,7 +726,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expectedData);
         fs.unlinkSync(dest);
         done();
       });
@@ -762,7 +751,7 @@ describe('cli', function() {
       ]);
 
       bin.stderr.once('data', function(code) {
-        assert.equal(JSON.parse(code).message, 'doesn\'t exist!');
+        assert.strictEqual(JSON.parse(code).message, 'doesn\'t exist!');
         done();
       });
     });
@@ -779,7 +768,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expected);
         fs.unlinkSync(dest);
         done();
       });
@@ -795,7 +784,7 @@ describe('cli', function() {
       ]);
 
       bin.once('close', function() {
-        assert.equal(read(dest, 'utf8').trim(), expected);
+        assert.strictEqual(read(dest, 'utf8').trim(), expected);
         fs.unlinkSync(dest);
         done();
       });
