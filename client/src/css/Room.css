@@ -92,6 +92,8 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
   }
+
+
   .select select::-ms-expand {
     display: none;
   }

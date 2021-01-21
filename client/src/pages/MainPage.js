@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { auth, db, storage } from "../firebase";
 import profile from "../assets/blankprofilepicture.png";
 import Typography from "@material-ui/core/Typography";
+import MenuAluno from "../components/MenuAluno/MenuAluno"
 
 const MainPage = (props) => {
   const [url, setURL] = useState("");
@@ -132,7 +133,7 @@ const MainPage = (props) => {
         </Button>
       </div>
       <div className="cointainer2 text-center pb-5">
-        {tipoPerfil == "true" ? <MenuProfessor /> : <h3>CONTA DE ESTUDANTE</h3>}
+        {tipoPerfil == "true" ? <MenuProfessor /> : <MenuAluno />}
       </div>
     </>
   );

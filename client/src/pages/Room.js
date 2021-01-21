@@ -16,11 +16,18 @@ import ChatIcon from "@material-ui/icons/Chat";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { message } from "antd";
+import SaveIcon from "@material-ui/icons/Save";
+import DeleteIcon from "@material-ui/icons/Delete";
 import "antd/dist/antd.css";
 import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
+import BlurOnIcon from "@material-ui/icons/BlurOn";
+import BlurOffIcon from "@material-ui/icons/BlurOff";
+
+import * as handpose from "@tensorflow-models/handpose";
+import * as tf from "@tensorflow/tfjs";
 
 // mimeType - The mimeType read-only property returns the MIME
 // media type that was specified when creating the
@@ -64,11 +71,52 @@ class Room extends Component {
       username: "",
       videos: [],
       recording: false,
+      blur: false,
+      net: null,
     };
     connections = {};
 
     this.getPermissions();
   }
+
+  runHandpose = async () => {
+    const net = await handpose.load();
+    console.log("Handpose model loaded.");
+    //  Loop and detect hands
+    setInterval(() => {
+      detect(net);
+    }, 100);
+  };
+
+  detect = async (net) => {
+    // Check data is available
+    if (
+      typeof this.localVideoref.current !== "undefined" &&
+      this.localVideoref.current !== null &&
+      this.localVideoref.current.video.readyState === 4
+    ) {
+      // Get Video Properties
+      const video = this.localVideoref.current.video;
+      const videoWidth = this.localVideoref.current.video.videoWidth;
+      const videoHeight = this.localVideoref.current.video.videoHeight;
+
+      // Set video width
+      this.localVideoref.current.video.width = videoWidth;
+      this.localVideoref.current.video.height = videoHeight;
+
+      // Set canvas height and width
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+
+      // Make Detections
+      const hand = await net.estimateHands(video);
+      console.log(hand);
+
+      // Draw mesh
+      const ctx = canvasRef.current.getContext("2d");
+      drawHand(hand, ctx);
+    }
+  };
 
   getPermissions = async () => {
     try {
@@ -146,8 +194,6 @@ class Room extends Component {
     } catch (e) {
       console.log(e);
     }
-
-    console.log(stream);
 
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
@@ -241,6 +287,22 @@ class Room extends Component {
     }
   };
 
+  startBlur(e) {
+    this.setState({
+      blur: true,
+    });
+
+    this.runHandpose();
+  }
+
+  stopBlur(e) {
+    this.setState({
+      blur: false,
+    });
+
+    alert("ADEUS");
+  }
+
   startRecording(e) {
     e.preventDefault();
     // wipe old data chunks
@@ -250,8 +312,8 @@ class Room extends Component {
 
     toast("🎬 You start recording!", {
       position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
+      autoClose: 3000,
+      hideProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: true,
@@ -269,8 +331,8 @@ class Room extends Component {
 
     toast.dark("🛑 You stop recording!", {
       position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
+      autoClose: 3000,
+      hideProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: true,
@@ -285,7 +347,7 @@ class Room extends Component {
 
   saveVideo() {
     // convert saved chunks to blob
-    const blob = new Blob(this.chunks, { type: videoType });
+    const blob = new Blob(this.chunks, { type: "video/mp4" });
 
     // generate video url from blob
     const videoURL = window.URL.createObjectURL(blob);
@@ -686,7 +748,7 @@ class Room extends Component {
   };
 
   render() {
-    const { recording, videos } = this.state;
+    const { recording, videos, blur } = this.state;
 
     if (this.isChrome() === false) {
       return (
@@ -757,17 +819,33 @@ class Room extends Component {
           </div>
         ) : (
           <>
-            <div>
+            <div className="text-center" style={{ background: "#969696" }}>
               {videos.map((videoURL, i) => (
-                <div key={`video_${i}`}>
-                  <video style={{ width: 200 }} src={videoURL} autoPlay loop />
+                <div className="pt-3 pb-3" key={`video_${i}`}>
+                  <video style={{ width: 200 }} src={videoURL} />
                   <div>
-                    <button onClick={() => this.deleteVideo(videoURL)}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => this.deleteVideo(videoURL)}
+                    >
                       Delete
-                    </button>
-                    <a target="_blank" href={videoURL}>
-                      Download
-                    </a>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      startIcon={<SaveIcon />}
+                    >
+                      <a
+                        style={{ textDecoration: "none" }}
+                        className="text-white"
+                        target="_blank"
+                        href={videoURL}
+                      >
+                        Download
+                      </a>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -821,6 +899,24 @@ class Room extends Component {
                     onClick={(e) => this.stopRecording(e)}
                   >
                     <StopIcon />
+                  </IconButton>
+                )}
+
+                {!blur && (
+                  <IconButton
+                    style={{ color: "white" }}
+                    onClick={(e) => this.startBlur(e)}
+                  >
+                    <BlurOnIcon />
+                  </IconButton>
+                )}
+
+                {blur && (
+                  <IconButton
+                    style={{ color: "#f44336" }}
+                    onClick={(e) => this.stopBlur(e)}
+                  >
+                    <BlurOffIcon />
                   </IconButton>
                 )}
 
@@ -917,12 +1013,20 @@ class Room extends Component {
                 <div className="pt-4">
                   <div className="select">
                     <label for="select1">Audio Source: </label>
-                    <select id="select1" className="pr-3"></select>
+                    <select
+                      value={this.state.video}
+                      id="select1"
+                      className="pr-3"
+                    ></select>
                     <div className="select__arrow"></div>
                   </div>
                   <div className="select">
                     <label for="select3">Video Source: </label>
-                    <select id="select3" className="pr-3"></select>
+                    <select
+                      value={this.state.audio}
+                      id="select3"
+                      className="pr-3"
+                    ></select>
                     <div className="select__arrow"></div>
                     {this.enumerateDevicesFunction()}
                   </div>
@@ -948,6 +1052,18 @@ class Room extends Component {
                       height: "90%",
                     }}
                   ></video>
+                  <canvas
+                    ref={this.canvasRef}
+                    style={{
+                      borderRadius: "50px",
+                      borderStyle: "solid",
+                      borderColor: "#001529",
+                      margin: "10px",
+                      objectFit: "fill",
+                      width: "90%",
+                      height: "90%",
+                    }}
+                  />
                 </Row>
               </div>
             </div>
