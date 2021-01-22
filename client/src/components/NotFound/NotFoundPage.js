@@ -3,10 +3,11 @@ import { CSSTransition } from 'react-transition-group';
 import Link from "@material-ui/core/Link";
 import { withRouter } from 'react-router-dom';
 
-import './NotFoundPage.scss';
-  
+import './index.css'
+
 import fourOhFour from '../../assets/fourOhFour.svg';
 import logo from '../../assets/banner.png';
+ 
 
 class NotFoundPage extends Component {
   constructor(props) {
