@@ -7,7 +7,6 @@
 
 <div align="center">
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhelderpgoncalves%2FRemoteSport&count_bg=%23000000&title_bg=%23E11010&icon=&icon_color=%23020000&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=helderpgoncalves.remotesports)
 [![Build Status](https://travis-ci.com/helderpgoncalves/RemoteSports.svg?branch=master)](https://travis-ci.com/helderpgoncalves/RemoteSports)
 [![Heroku App Status](http://heroku-shields.herokuapp.com/remotesports)](https://remotesports.herokuapp.com/)
