@@ -1,56 +1,98 @@
 <h1 align="center">
-  <img src="src/assets/banner.png" alt="RemoteSports">
   <br>
+  <a href="https://remotesports.herokuapp.com/"><img src="client/src/assets/logo_transparent.png" alt="RemoteSports" width="400"></a>
+  <br>
+  RemoteSports
 </h1>
 
-<table>
-<tr>
-<td>
-  WebApp Project for University Class with the goal of developing a Video Group Chat for Physical Education Online Classes using React, WebRTC, Firebase and others frameworks.
-</td>
-</tr>
-</table>
+<div align="center">
 
-# [Usage](https://github.com/helderpgoncalves/RemoteSports)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhelderpgoncalves%2FRemoteSport&count_bg=%23000000&title_bg=%23E11010&icon=&icon_color=%23020000&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=helderpgoncalves.remotesports)
+[![Build Status](https://travis-ci.com/helderpgoncalves/RemoteSports.svg?branch=master)](https://travis-ci.com/helderpgoncalves/RemoteSports)
+[![Heroku App Status](http://heroku-shields.herokuapp.com/remotesports)](https://remotesports.herokuapp.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-### Development
+</div>
 
-Want to contribute? Great!
-
-To fix a bug or enhance an existing module, follow these steps:
-
-- Fork the repo
-- Create a new branch (`git checkout -b improve-feature`)
-- Make the appropriate changes in the files
-- Add changes to reflect the changes made
-- Commit your changes (`git commit -am 'Improve feature'`)
-- Push to the branch (`git push origin improve-feature`)
-- Create a Pull Request
-
-### Bug / Feature Request
-
-If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue [here](https://github.com/helderpgoncalves/RemoteSports/issues/new) by including your search query and the expected result.
-
-If you'd like to request a new function, feel free to do so by opening an issue [here](https://github.com/helderpgoncalves/RemoteSports/issues/new). Please include sample queries and their corresponding results.
+<p>
+RemoteSports provides you with a reliable and secure connection for your online classes that is and will always be 100% free. We work to ensure that your online classes will have all the features required to shorten the difference between real life and online. With multiple cameras active your students won't miss out on any part of the class due to camera limits and with calendar scheduling they will never miss a class itself!
+</p>
 
 ## Built with
 
-- [Node.js](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine.
-- [ReactJS](https://reactjs.org/docs/getting-started.html) - An open-source, front end, JavaScript library for building user interfaces or UI components.
-- [Redux.js](https://redux.js.org/introduction/getting-started) - Predictable state container for JavaScript apps.
-- [WebRTC](https://webrtc.org) - An open framework for the web that enables Real-Time Communications (RTC) capabilities in the browser.
-- [Firebase Authentication](https://firebase.google.com/docs/auth) - Backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers, popular federated identity providers like Google, Facebook and Twitter, and more.
-- [Cloud Firestore](https://firebase.google.com/docs/firestore) - NoSQL document database that lets you easily store, sync, and query data for your mobile and web apps - at global scale.
-- [Ant Design](https://ant.design/docs/react/introduce) - Following the Ant Design specification, we developed a React UI library antd that contains a set of high quality components and demos for building rich, interactive user interfaces.
-- [Bootstrap](http://getbootstrap.com/) - Extensive list of components and Bundled Javascript plugins.
+- [Node.js](https://nodejs.org/en/)
+- [ReactJS](https://reactjs.org/docs/getting-started.html)
+- [Redux.js](https://redux.js.org/introduction/getting-started)
+- [WebRTC](https://webrtc.org) 
+- [Firebase Authentication](https://firebase.google.com/docs/auth)
+- [Cloud Firestore](https://firebase.google.com/docs/firestore)
+- [Firebase Storage](https://firebase.google.com/docs/storage)
+- [Socket.IO](https://socket.io/)
+- [Express](https://expressjs.com/)
+- [Heroku](https://www.heroku.com/)
+- [TensorFlow.js](https://www.tensorflow.org/js)
 
-# Team
+##  Features
 
-[![Hélder Gonçalves](https://avatars2.githubusercontent.com/u/59267214?s=460&u=3a6111e055dfda341a602937a587c2b84418c28a&v=4)](https://github.com/helderpgoncalves) [![Hugo Pereira](https://avatars0.githubusercontent.com/u/61696448?s=460&v=4)](https://github.com/EvocativeAxisPt/)
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+  * 
+  * 
 
-# [License](https://github.com/helderpgoncalves/RemoteSports/blob/master/LICENSE.md)
+## How To Use
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/helderpgoncalves/remotesports
+
+# Go into the repository
+$ cd RemoteSports
+
+# Install dependencies
+$ npm install && cd client && cd install && cd ..
+
+# Run the app - Split Terminal (Server & Client)
+# Terminal 1 - Server - Project Root
+$ node server.js
+
+# Terminal 2 - Client
+$ npm start 
+```
+
+## Team
+
+<p align="center">
+  <a href="https://github.com/helderpgoncalves">
+    <h4><b>Hélder Gonçalves</b></h4>
+    <img src="https://avatars2.githubusercontent.com/u/59267214?s=460&u=3a6111e055dfda341a602937a587c2b84418c28a&v=4)](https://github.com/helderpgoncalves" alt="Logo" width="120" height="120">
+  </a> <br />
+  <a href="https://www.linkedin.com/in/heldergoncalves16/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp;
+</p>
+
+<p align="center">
+  <a href="https://github.com/EvocativeAxisPt">
+    <h4><b>Hugo Pereira</b></h4>
+    <img src="https://avatars0.githubusercontent.com/u/61696448?s=460&v=4)](https://github.com/EvocativeAxisPt" alt="Logo" width="120" height="120">
+  </a>
+</p>
+
+# License
+
+[MIT](https://tldrlegal.com/license/mit-license)
 
 ```
 MIT License
@@ -63,3 +105,4 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
