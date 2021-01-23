@@ -25,10 +25,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
 import BlurOnIcon from "@material-ui/icons/BlurOn";
 import BlurOffIcon from "@material-ui/icons/BlurOff";
+import SendIcon from "@material-ui/icons/Send";
 
 import * as handpose from "@tensorflow-models/handpose";
 import * as tf from "@tensorflow/tfjs";
-import { drawHand } from "../utilities";
+import * as bodyPix from "@tensorflow-models/body-pix";
+import { drawHand } from "../utilities"; // Canvas Draws on the Hand
 import * as fp from "fingerpose";
 import thumbs_up from "../assets/thumbs_up.png";
 import victory from "../assets/victory.png";
@@ -73,7 +75,7 @@ class Room extends Component {
       newmessages: 0,
       askForUsername: true,
       username: "",
-      videos: [],
+      videos: [], 
       recording: false,
       blur: false,
       net: null,
@@ -106,11 +108,10 @@ class Room extends Component {
       const videoWidth = document.getElementById("my-video").style.width;
       const videoHeight = document.getElementById("my-video").style.height;
 
-      console.log(videoWidth);
-      console.log(videoHeight);
-
       // Get Video Properties
       const video = document.getElementById("my-video");
+
+      const vidStyleData = video.getBoundingClientRect();
 
       //  const videoWidth = this.localVideoref.current.video.videoWidth;
       //  const videoHeight = this.localVideoref.current.video.videoHeight;
@@ -149,26 +150,6 @@ class Room extends Component {
           this.setState({
             emoji: gesture.gestures[maxConfidence].name,
           });
-
-          // TODO - MAKING - TOAST
-          //
-          // Duvidas overlay do canvas no video
-          //
-          if (this.state.emoji == "thumbs_up") {
-            toast.dark("👍", {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: true,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-
-            this.setState({
-              emoji: null,
-            });
-          }
         }
       }
 
@@ -363,14 +344,38 @@ class Room extends Component {
     this.setState({
       blur: true,
     });
+
+    this.loadBodyPix();
   }
+
+  loadBodyPix = async () => {
+    const videoElement = document.getElementById("my-video");
+
+    const net = await bodyPix.load();
+
+    // Convert the personSegmentation into a mask to darken the background.
+    const segmentation = net.segmentPerson(videoElement);
+
+    const backgroundBlurAmount = 6;
+    const edgeBlurAmount = 2;
+    const flipHorizontal = true;
+
+    const canvas = document.getElementById("canvas");
+
+    bodyPix.drawBokehEffect(
+      canvas,
+      videoElement,
+      segmentation,
+      backgroundBlurAmount,
+      edgeBlurAmount,
+      flipHorizontal
+    );
+  };
 
   stopBlur(e) {
     this.setState({
       blur: false,
     });
-
-    alert("ADEUS");
   }
 
   startRecording(e) {
@@ -1056,6 +1061,7 @@ class Room extends Component {
                     variant="contained"
                     color="primary"
                     onClick={this.sendMessage}
+                    startIcon={<SendIcon />}
                   >
                     Send
                   </Button>
@@ -1127,10 +1133,9 @@ class Room extends Component {
                       id="canvas"
                       ref={this.canvasRef}
                       style={{
-                        position: "absolute",
+                        position: "relative",
                         objectFit: "fill",
-                        width: "1000",
-                        height: "1000",
+                        backgroundColor: "transparent",
                       }}
                     />
                   )}
