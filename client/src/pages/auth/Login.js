@@ -87,81 +87,85 @@ const Login = ({ history }) => {
 
   const LoginForm = () => (
     <div className="pt-5">
-    <Container component="main" maxWidth="xs" id="login-container">
-      <div className={classes.paper}> 
-        <Avatar
-          alt="Remy Sharp"
-          src={logo}
-          className={classes.avatar}
-          variant="rounded"
-        />
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            required
-            margin="normal"
-            variant="outlined"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-            label="Email Address"
+      <Container component="main" maxWidth="xs" id="login-container">
+        <div className={classes.paper}>
+          <Avatar
+            alt="Remy Sharp"
+            src={logo}
+            className={classes.avatar}
+            variant="rounded"
           />
-          <TextField
-            fullWidth
-            required
-            margin="normal"
-            variant="outlined"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            label="Password"
-          />
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              required
+              margin="normal"
+              variant="outlined"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoFocus
+              label="Email Address"
+            />
+            <TextField
+              fullWidth
+              required
+              margin="normal"
+              variant="outlined"
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              label="Password"
+            />
 
-          <br />
-          <Button
-            onClick={handleSubmit}
-            type="primary"
-            className={classes.submit}
-            shape="round"
-            block
-            icon={<MailOutlined />}
-            size="large"
-            disabled={!email || password.length < 6}
-          >
-            Login with Email/Password
-          </Button>
-          <Button
-            onClick={googleLogin}
-            type="danger"
-            className={classes.submit}
-            shape="round"
-            block
-            icon={<GoogleOutlined />}
-            size="large"
-          >
-            Google Account Login
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to="/forgot/password" variant="body2" className="text-danger">
-                Forgot Password
-              </Link>
+            <br />
+            <Button
+              onClick={handleSubmit}
+              type="primary"
+              className={classes.submit}
+              shape="round"
+              block
+              icon={<MailOutlined />}
+              size="large"
+              disabled={!email || password.length < 6}
+            >
+              Login with Email/Password
+            </Button>
+            <Button
+              onClick={googleLogin}
+              type="danger"
+              className={classes.submit}
+              shape="round"
+              block
+              icon={<GoogleOutlined />}
+              size="large"
+            >
+              Google Account Login
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  to="/forgot/password"
+                  variant="body2"
+                  className="text-danger"
+                >
+                  Forgot Password
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/register" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+          </form>
+        </div>
+      </Container>
     </div>
   );
 

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { auth, db, storage } from "../firebase";
 import profile from "../assets/blankprofilepicture.png";
 import Typography from "@material-ui/core/Typography";
-import MenuAluno from "../components/MenuAluno/MenuAluno"
+import MenuAluno from "../components/MenuAluno/MenuAluno";
 
 const MainPage = (props) => {
   const [url, setURL] = useState("");

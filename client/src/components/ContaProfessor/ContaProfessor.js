@@ -4,7 +4,7 @@ import AsyncSelect from "react-select/async";
 import { Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { DeleteOutlined } from "@ant-design/icons";
-import ICalendar from "../iCalendar/ICalendar"
+import ICalendar from "../iCalendar/ICalendar";
 
 class SearchFirestore extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class SearchFirestore extends Component {
         if (doc.exists) {
           // Evitar Duplicados
           // TODO //
-          this.state.data.push(doc.data())
+          this.state.data.push(doc.data());
           console.log(this.state.data);
         } else {
           console.log("No such document!");
@@ -66,9 +66,7 @@ class SearchFirestore extends Component {
       selectedTag: [tags],
     });
 
-    // A FAZER 
-
-
+    // A FAZER
   };
 
   handleDeleteRow(i) {
@@ -79,7 +77,7 @@ class SearchFirestore extends Component {
     let rows = [];
 
     if (this.state.data)
-      this.state.data.map(element => {
+      this.state.data.map((element) => {
         rows.push(
           <tr key={element}>
             <td>{element.name}</td>
@@ -108,7 +106,6 @@ class SearchFirestore extends Component {
           />
         </div>
         <div className="pl-5 pr-5 pt-5">
-          
           <h4 className="text-center">CLASS</h4>
           <Table>
             <thead>
@@ -119,13 +116,11 @@ class SearchFirestore extends Component {
                 <th>Delete</th>
               </tr>
             </thead>
-            <tbody>
-            {this.getRows()}
-            </tbody>
+            <tbody>{this.getRows()}</tbody>
           </Table>
         </div>
 
-        <ICalendar/>
+        <ICalendar />
       </>
     );
   }

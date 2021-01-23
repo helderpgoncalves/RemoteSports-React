@@ -12,14 +12,14 @@ var firebaseConfig = {
   storageBucket: "remotesports.appspot.com",
   messagingSenderId: "827133357695",
   appId: "1:827133357695:web:8a1937cd9f650ebc96d94a",
-  measurementId: "G-9LM6ZBKF5Y"
+  measurementId: "G-9LM6ZBKF5Y",
 };
 
 // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 // Export
-export const auth = firebase.auth(); 
+export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const db = firebase.firestore();
-export const storage = firebase.storage()
+export const storage = firebase.storage();

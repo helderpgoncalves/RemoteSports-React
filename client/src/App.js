@@ -22,9 +22,11 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => { //React
+  useEffect(() => {
+    //React
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) { //Login está feito
+      if (user) {
+        //Login está feito
         const idTokenResult = await user.getIdTokenResult();
         dispatch({
           type: "LOGGED_IN_USER",

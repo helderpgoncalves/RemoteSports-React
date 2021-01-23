@@ -3,7 +3,7 @@ import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
-import "../../css/Register.css"
+import "../../css/Register.css";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
@@ -13,13 +13,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
-      
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be in the authorized domains list in the Firebase Console.
       // process para aceder as variaveis env
 
-     // url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-     url: "http://localhost:3000/register/complete",
+      // url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+      url: "http://localhost:3000/register/complete",
       handleCodeInApp: true,
     };
 
@@ -46,7 +45,7 @@ const Register = () => {
         setEmail("");
       })
       .catch(function (error) {
-        console.log(error)
+        console.log(error);
         toast.error(`😥 ${error} Please try again!`, {
           position: "top-right",
           autoClose: 5000,
@@ -68,17 +67,17 @@ const Register = () => {
   const RegisterForm = () => (
     <form onSubmit={handleSubmit}>
       <TextField
-            fullWidth
-            required
-            margin="normal"
-            variant="outlined"
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-            label="Email Address"
-          />
+        fullWidth
+        required
+        margin="normal"
+        variant="outlined"
+        type="email"
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        autoFocus
+        label="Email Address"
+      />
       <br />
       <br />
       <Button
@@ -89,17 +88,18 @@ const Register = () => {
         icon={<UserAddOutlined />}
         size="large"
         disabled={!email}
-      >Register with Email
+      >
+        Register with Email
       </Button>
     </form>
   );
 
   return (
     <div className="text-center">
-    <div id="register-container">
-          <Typography variant="h3">Create New Account</Typography>
-          {RegisterForm()}
-    </div>
+      <div id="register-container">
+        <Typography variant="h3">Create New Account</Typography>
+        {RegisterForm()}
+      </div>
     </div>
   );
 };

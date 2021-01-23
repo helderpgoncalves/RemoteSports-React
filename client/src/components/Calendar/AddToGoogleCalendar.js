@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 function Calendar({ data }) {
   const dataEvent = data;
 
-  
   var gapi = window.gapi;
 
   var CLIENT_ID =
@@ -44,7 +43,7 @@ function Calendar({ data }) {
               dateTime: new Date(data.endTime).toISOString(),
               timeZone: "Europe/Lisbon",
             },
-             // recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
+            // recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
             attendees: [
               { email: "helderpimentaxc@gmail.com" },
               { email: "joao.m.f.l452@gmail.com" },

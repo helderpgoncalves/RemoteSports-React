@@ -3,16 +3,13 @@ import React, { Component } from "react";
 class MenuAluno extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
-
 
   render() {
     return (
       <>
-      <h1>Olá</h1>
+        <h1>Olá</h1>
       </>
     );
   }

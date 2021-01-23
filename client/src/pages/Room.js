@@ -75,7 +75,7 @@ class Room extends Component {
       newmessages: 0,
       askForUsername: true,
       username: "",
-      videos: [], 
+      videos: [],
       recording: false,
       blur: false,
       net: null,

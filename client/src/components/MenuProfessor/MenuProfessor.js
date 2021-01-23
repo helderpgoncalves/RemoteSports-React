@@ -81,13 +81,15 @@ class MenuProfessor extends Component {
       .get()
       .then(function (doc) {
         if (doc.exists) {
-          var docRef2 = db.collection("classes").doc(turma.nameClass.toUpperCase())
+          var docRef2 = db
+            .collection("classes")
+            .doc(turma.nameClass.toUpperCase());
 
           docRef2
             .set({
               students: turma.students,
               school: doc.data().school,
-              professor: doc.data().email
+              professor: doc.data().email,
             })
             .then(function () {
               toast.success(`🤪 Excellent! You create new class!`, {

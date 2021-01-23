@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { toast } from "react-toastify";
 import Modal from "react-awesome-modal";
-import iCalendar from '../../assets/iCalendar.png'
+import iCalendar from "../../assets/iCalendar.png";
 
 export default class ICalendar extends Component {
   constructor(props) {
@@ -112,7 +112,10 @@ export default class ICalendar extends Component {
             <div>
               <h2>Success Creating the Class</h2>
               <img style={{ width: "50%" }} src={iCalendar} alt="iCalendar" />
-              <ICalendarLink event={this.state}>Export to iCalendar</ICalendarLink> <br /> <br />
+              <ICalendarLink event={this.state}>
+                Export to iCalendar
+              </ICalendarLink>{" "}
+              <br /> <br />
               <a href="javascript:void(0);" onClick={() => this.closeModal()}>
                 Close
               </a>

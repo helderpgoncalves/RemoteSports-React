@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React, { Component } from "react";
+import { CSSTransition } from "react-transition-group";
 import Link from "@material-ui/core/Link";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
-import './index.css'
+import "./index.css";
 
-import fourOhFour from '../../assets/fourOhFour.svg';
-import logo from '../../assets/banner.png';
- 
+import fourOhFour from "../../assets/fourOhFour.svg";
+import logo from "../../assets/banner.png";
 
 class NotFoundPage extends Component {
   constructor(props) {
@@ -33,11 +32,10 @@ class NotFoundPage extends Component {
 
   redirectToHome = () => {
     const { history } = this.props;
-    if(history) history.push('/');
-   }
+    if (history) history.push("/");
+  };
 
   render() {
-
     const { history } = this.props;
 
     return (
@@ -88,7 +86,9 @@ class NotFoundPage extends Component {
             {(state) => (
               <div className="text-center error-text flex justifyCenter">
                 <h3>Oops… Looks like you got lost</h3>
-                <Link to="/" onClick={this.redirectToHome}>HOME</Link>
+                <Link to="/" onClick={this.redirectToHome}>
+                  HOME
+                </Link>
               </div>
             )}
           </CSSTransition>
@@ -98,4 +98,4 @@ class NotFoundPage extends Component {
   }
 }
 
-export default withRouter(NotFoundPage);       
+export default withRouter(NotFoundPage);

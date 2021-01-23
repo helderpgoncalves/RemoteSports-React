@@ -76,7 +76,8 @@ const RegisterComplete = ({ history }) => {
         uploadTask.on("state_changed", console.log, console.error, () => {
           storage
             .ref("images")
-            .child(auth.currentUser.uid).child('profileImage')
+            .child(auth.currentUser.uid)
+            .child("profileImage")
             .getDownloadURL()
             .then((url) => {
               setFile(null);
@@ -148,14 +149,14 @@ const RegisterComplete = ({ history }) => {
       />
       <br />
       <CountryDropdown
-      className="form-control"
+        className="form-control"
         value={country}
         onChange={selectCountry}
         style={{ fontSize: 15 }}
       />
       <br />
       <RegionDropdown
-      className="form-control"
+        className="form-control"
         disableWhenEmpty={true}
         country={country}
         value={region}
@@ -170,7 +171,11 @@ const RegisterComplete = ({ history }) => {
         onChange={setPhoneNumber}
       />
       <br />
-      <select onChange={(e) => setIsTeacher(e.target.value)} className="form-control" required>
+      <select
+        onChange={(e) => setIsTeacher(e.target.value)}
+        className="form-control"
+        required
+      >
         <option value={true}>Teacher</option>
         <option value={false}>Student</option>
       </select>
