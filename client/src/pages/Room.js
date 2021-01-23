@@ -345,7 +345,7 @@ class Room extends Component {
       blur: true,
     });
 
-    this.loadBodyPix();
+  //  this.loadBodyPix();
   }
 
   loadBodyPix = async () => {
