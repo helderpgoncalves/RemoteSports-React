@@ -42,6 +42,7 @@ RemoteSports provides you with a reliable and secure connection for your online 
 * Fully functional meeting systems so you can enable or disable all your outputs and keep the video-call clean!
 * Never miss a class again with our calendar system. Using  iCalendar and Google calendar we will make sure that you will be notified whenever a class is scheduled so you are always informed!
 * Want to attend a class but can't at the time its scheduled? We have got you covered simply hit the record button or ask one of you colleges and you can save the entire meeting to your computer
+* Login with your google account for fast and easy acess!
 
 ## How To Use
 
