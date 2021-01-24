@@ -34,19 +34,14 @@ RemoteSports provides you with a reliable and secure connection for your online 
 
 ##  Features
 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-* 
-  * 
-  * 
+* Our video rooms allow the users to share their camera, screen and microphone providing you the tools to successfully have your classes online
+* Using the local chat in each room our user's can communicate with each other even without their microphones!
+* Our interactive, easy to use interface will make sure that even if you aren't technically gifted you will have no problems doing what you want to do. Whether you are trying to create a class to automatically  invite all of your students to the meeting, a student creating a new account or just trying to create your very own meeting using automated suggestion's and good design practices we have made sure that everything is simple and easy to utilize
+* Having trouble with other online meeting services not allowing you to share more than one camera? We have got just what you need. With our multiple camera's per user system your students wont miss a single pixel from your class!
+*  Using artificial intelligence we will keep track of your actions through your camera! Want to ask a question? Just raise your finger and using tensor flow we will recognize the action and promptly raise your hand!
+* Fully functional meeting systems so you can enable or disable all your outputs and keep the video-call clean!
+* Never miss a class again with our calendar system. Using  iCalendar and Google calendar we will make sure that you will be notified whenever a class is scheduled so you are always informed!
+* Want to attend a class but can't at the time its scheduled? We have got you covered simply hit the record button or ask one of you colleges and you can save the entire meeting to your computer
 
 ## How To Use
 
