@@ -63,11 +63,30 @@ io.on("connection", (socket) => {
       }
     }
 
-    console.log(path, connections[path]);
+    //  console.log(path, connections[path]);
   });
 
   socket.on("signal", (toId, message) => {
     io.to(toId).emit("signal", socket.id, message);
+  });
+
+  socket.on("notification", (sender) => {
+    sender = sanitizeString(sender);
+
+    var key;
+    var ok = false;
+    for (const [k, v] of Object.entries(connections)) {
+      for (let a = 0; a < v.length; ++a) {
+        if (v[a] === socket.id) {
+          key = k;
+          ok = true;
+        }
+      }
+    }
+
+    for (let a = 0; a < connections[key].length; ++a) {
+      io.to(connections[key][a]).emit("notification", sender);
+    }
   });
 
   socket.on("chat-message", (data, sender) => {
@@ -94,7 +113,8 @@ io.on("connection", (socket) => {
         data: data,
         "socket-id-sender": socket.id,
       });
-      console.log("message", key, ":", sender, data);
+
+      // console.log("message", key, ":", sender, data);
 
       for (let a = 0; a < connections[key].length; ++a) {
         io.to(connections[key][a]).emit(
@@ -124,7 +144,7 @@ io.on("connection", (socket) => {
           var index = connections[key].indexOf(socket.id);
           connections[key].splice(index, 1);
 
-          console.log(key, socket.id, Math.ceil(diffTime / 1000));
+          // console.log(key, socket.id, Math.ceil(diffTime / 1000));
 
           if (connections[key].length === 0) {
             delete connections[key];

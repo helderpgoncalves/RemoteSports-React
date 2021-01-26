@@ -26,6 +26,7 @@ import "../css/Room.css";
 import BlurOnIcon from "@material-ui/icons/BlurOn";
 import BlurOffIcon from "@material-ui/icons/BlurOff";
 import SendIcon from "@material-ui/icons/Send";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 import * as handpose from "@tensorflow-models/handpose";
 import * as tf from "@tensorflow/tfjs";
@@ -72,6 +73,7 @@ class Room extends Component {
       screenAvailable: false,
       messages: [],
       message: "",
+      notification: "",
       newmessages: 0,
       askForUsername: true,
       username: "",
@@ -345,7 +347,7 @@ class Room extends Component {
       blur: true,
     });
 
-  //  this.loadBodyPix();
+    //  this.loadBodyPix();
   }
 
   loadBodyPix = async () => {
@@ -580,6 +582,8 @@ class Room extends Component {
 
       socket.on("chat-message", this.addMessage);
 
+      socket.on("notification", this.addNotification);
+
       socket.on("user-left", (id) => {
         let video = document.querySelector(`[data-socket="${id}"]`);
         if (video !== null) {
@@ -614,7 +618,7 @@ class Room extends Component {
               `[data-socket="${socketListId}"]`
             );
             if (searchVidep !== null) {
-              // if i don't do this check it make an empyt square
+              // if i don't do this check it make an empty square
               searchVidep.srcObject = event.stream;
             } else {
               elms = clients.length;
@@ -711,7 +715,7 @@ class Room extends Component {
     try {
       let tracks = this.localVideoref.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
-      toast.error("You leave the Meeting!", {
+      toast.error("You leave the Meeting! 👋", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -728,6 +732,10 @@ class Room extends Component {
   closeChat = () => this.setState({ showModal: false });
   handleMessage = (e) => this.setState({ message: e.target.value });
 
+  askQuestion = () => {
+    socket.emit("notification", this.state.username);
+  };
+
   addMessage = (data, sender, socketIdSender) => {
     this.setState((prevState) => ({
       messages: [...prevState.messages, { sender: sender, data: data }],
@@ -737,11 +745,19 @@ class Room extends Component {
     }
   };
 
-  handleUsername = (e) => this.setState({ username: e.target.value });
-
-  startRecord = () => {
-    socket.emit("message", this.state.files);
+  addNotification = (sender) => {
+    toast.dark(`❓ ${sender} wants to ask a question!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
+
+  handleUsername = (e) => this.setState({ username: e.target.value });
 
   sendMessage = () => {
     socket.emit("chat-message", this.state.message, this.state.username);
@@ -1021,6 +1037,13 @@ class Room extends Component {
                     <ChatIcon />
                   </IconButton>
                 </Badge>
+
+                <IconButton
+                  style={{ color: "white" }}
+                  onClick={this.askQuestion}
+                >
+                  <LiveHelpIcon />
+                </IconButton>
               </div>
 
               <Modal
@@ -1133,7 +1156,7 @@ class Room extends Component {
                       id="canvas"
                       ref={this.canvasRef}
                       style={{
-                        position: "relative",
+                        position: "absolute",
                         objectFit: "fill",
                         backgroundColor: "transparent",
                       }}
