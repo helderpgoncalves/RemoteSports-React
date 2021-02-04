@@ -13,9 +13,13 @@
 }
 
 #container1 {
-  background-color: #98b4d4;
+  background-color: #203647;
 }
 
 #container2 {
   background-color: #1890ff;
+}
+
+#background {
+  margin-bottom: 0%;
 }

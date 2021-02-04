@@ -63,6 +63,7 @@ const MainPage = (props) => {
     .getDownloadURL()
     .then(function (urlPhoto) {
       var img = document.getElementById("myimg");
+      localStorage.setItem("profilePhoto", urlPhoto);
       setUrlPhoto(urlPhoto);
       img.src = urlPhoto;
     })
@@ -95,45 +96,48 @@ const MainPage = (props) => {
 
   return (
     <>
-      <div className="text-center pt-3">
-        <img
-          style={{ width: 250, height: 250, borderRadius: "50%" }}
-          id="myimg"
-          src={profile}
-          alt="profile"
-          onError={hideImg}
-        />
+      <div id="container1">
+        <div className="text-center pt-3">
+          <img
+            style={{ width: 250, height: 250, borderRadius: "50%" }}
+            id="myimg"
+            src={profile}
+            alt="profile"
+            onError={hideImg}
+          />
+        </div>
+        <div className="text-center pt-3 pb-3">
+          <Typography variant="h3" gutterBottom style={{ color: "white" }}>
+            {name}
+          </Typography>
+        </div>
       </div>
-      <div className="text-center pt-3">
-        <Typography variant="h3" gutterBottom>
-          {name}
-        </Typography>
-      </div>
-      <hr id="hr" />
-      <div className="text-center" id="joinRoom">
-        <p
-          style={{
-            alignContent: "center",
-            margin: 0,
-            fontWeight: "bold",
-            paddingRight: "50px",
-          }}
-        >
-          Start or join a meeting
-        </p>
-        <Input placeholder="URL" onChange={(e) => setURL(e.target.value)} />
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={create}
-          style={{ margin: "20px" }}
-        >
-          Go
-        </Button>
-      </div>
-      <div className="cointainer2 text-center pb-5">
-        {tipoPerfil == "true" ? <MenuProfessor /> : <MenuAluno />}
+      <div id="container3">
+        <div className="text-center" id="joinRoom">
+          <p
+            style={{
+              alignContent: "center",
+              margin: 0,
+              fontWeight: "bold",
+              paddingRight: "50px",
+            }}
+          >
+            Start or join a meeting
+          </p>
+          <Input placeholder="URL" onChange={(e) => setURL(e.target.value)} />
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={create}
+            style={{ margin: "20px" }}
+          >
+            Go
+          </Button>
+        </div>
+        <div className="cointainer2 text-center pb-5">
+          {tipoPerfil == "true" ? <MenuProfessor /> : <MenuAluno />}
+        </div>
       </div>
     </>
   );

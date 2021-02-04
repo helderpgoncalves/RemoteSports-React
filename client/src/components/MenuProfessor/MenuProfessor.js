@@ -187,7 +187,7 @@ class MenuProfessor extends Component {
             </Button>
           </form>
         </div>
-        <div className="pt-5">
+        <div className="pt-0">
           <CreateLesson />
         </div>
       </>

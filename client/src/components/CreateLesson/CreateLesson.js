@@ -69,7 +69,7 @@ export default class CreateLesson extends Component {
 
     return (
       <>
-        <div className="card card-1">
+        <div className="card1 card-2">
           <form onSubmit={this.classCreate} style={{ margin: "20px" }}>
             <TextField
               id="cadeira"

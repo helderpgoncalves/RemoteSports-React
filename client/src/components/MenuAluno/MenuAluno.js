@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import GetGoogleCalendar from "../Calendar/GetGoogleCalendar";
 class MenuAluno extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +9,7 @@ class MenuAluno extends Component {
   render() {
     return (
       <>
-        <h1>Olá</h1>
+        <GetGoogleCalendar />
       </>
     );
   }

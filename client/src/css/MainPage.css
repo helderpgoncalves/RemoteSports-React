@@ -37,3 +37,7 @@ body {
   border: 0;
   box-shadow: inset 12px 0 12px 0 rgba(0, 0, 0, 0.5);
 }
+
+#container1 {
+  background-color: #203647;
+}
