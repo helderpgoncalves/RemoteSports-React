@@ -10,6 +10,7 @@ import ClassIcon from "@material-ui/icons/Class";
 import { DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import CreateLesson from "../CreateLesson/CreateLesson";
+import { v4 as uuidv4 } from "uuid";
 
 class MenuProfessor extends Component {
   constructor(props) {
@@ -81,15 +82,14 @@ class MenuProfessor extends Component {
       .get()
       .then(function (doc) {
         if (doc.exists) {
-          var docRef2 = db
-            .collection("classes")
-            .doc(turma.nameClass.toUpperCase());
+          var docRef2 = db.collection("classes").doc(uuidv4());
 
           docRef2
             .set({
               students: turma.students,
               school: doc.data().school,
               professor: doc.data().email,
+              name: turma.nameClass.toUpperCase(),
             })
             .then(function () {
               toast.success(`🤪 Excellent! You create new class!`, {

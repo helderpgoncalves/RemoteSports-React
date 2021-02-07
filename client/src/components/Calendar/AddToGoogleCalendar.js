@@ -44,10 +44,7 @@ function Calendar({ data }) {
               timeZone: "Europe/Lisbon",
             },
             // recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
-            attendees: [
-              { email: "helderpimentaxc@gmail.com" },
-              { email: "joao.m.f.l452@gmail.com" },
-            ],
+            attendees: data.attendees[0],
             reminders: {
               useDefault: false,
               overrides: [
@@ -66,24 +63,6 @@ function Calendar({ data }) {
             console.log(event);
             window.open(event.htmlLink);
           });
-
-          /*
-            Uncomment the following block to get events
-        */
-          /*
-        // get events
-        gapi.client.calendar.events.list({
-          'calendarId': 'primary',
-          'timeMin': (new Date()).toISOString(),
-          'showDeleted': false,
-          'singleEvents': true,
-          'maxResults': 10,
-          'orderBy': 'startTime'
-        }).then(response => {
-          const events = response.result.items
-          console.log('EVENTS: ', events)
-        })
-        */
         });
     });
   };

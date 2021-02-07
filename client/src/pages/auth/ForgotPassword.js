@@ -25,7 +25,7 @@ const ForgotPassword = ({ history }) => {
     await auth
       .sendPasswordResetEmail(email, config)
       .then(() => {
-        //Agora Repor passowrd
+        //Agora Repor Password
         setEmail("");
         setLoading(false);
         toast.success(`🔑 Check ${email} for password reset link!`, {

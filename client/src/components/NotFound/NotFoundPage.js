@@ -56,22 +56,14 @@ class NotFoundPage extends Component {
           >
             {(state) => (
               <div
-                className="text-center fourOhFour flex justifyCenter"
-                onMouseMove={(e) => {
-                  this.onMouseMove(e);
-                }}
-                onMouseOut={() => {
-                  this.setState({ astrotop: "10px", astroright: "30px" });
-                }}
-              >
+ className="text-center">
                 <img src={fourOhFour} />
                 <img
                   src={logo}
                   className="astrodude"
                   style={{
-                    width: 180,
+                    width: 300,
                     paddingTop: this.state.astrotop,
-                    paddingRight: this.state.astroright,
                   }}
                 />
               </div>

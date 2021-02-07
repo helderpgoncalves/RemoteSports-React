@@ -8,6 +8,8 @@ import iCalendar from "../../assets/iCalendar.png";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import AddToGoogleCalendar from "../Calendar/AddToGoogleCalendar";
 import "./CreateLesson.css";
+import { db } from "../../firebase";
+import AsyncSelect from "react-select/async";
 
 export default class CreateLesson extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ export default class CreateLesson extends Component {
       startTime: "",
       endTime: "",
       location: window.location.origin,
+      attendees: [],
     };
   }
 
@@ -44,6 +47,48 @@ export default class CreateLesson extends Component {
     });
   }
 
+  loadOptions = async (inputValue) => {
+    inputValue = inputValue.toUpperCase().replace(/\W/g, " ");
+    return new Promise((resolve) => {
+      db.collection("classes")
+        .orderBy("name")
+        .startAt(inputValue)
+        .endAt(inputValue + "\uf8ff")
+        .get()
+        .then((docs) => {
+          if (!docs.empty) {
+            let recommendedTags = [];
+            docs.forEach(function (doc) {
+              //  console.log(doc.data().students);
+              const tag = {
+                label: doc.data().name,
+                students: doc.data().students,
+              };
+              recommendedTags.push(tag);
+            });
+            return resolve(recommendedTags);
+          } else {
+            return resolve([]);
+          }
+        });
+    });
+  };
+
+  handleOnChange = (tags) => {
+
+    const students = tags.students.map(function (item) {
+      return {email: item["label"]};
+    });
+
+ //   console.log(students);
+    
+    this.setState({
+      attendees: [...this.state.attendees, students],
+    });
+
+  //  console.log(this.state.attendees)
+  };
+
   handleChange = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -59,6 +104,7 @@ export default class CreateLesson extends Component {
   render() {
     const dados = this.state;
 
+    // Formato para Exportar para o iCalendar
     const ical = {
       title: dados.title,
       description: dados.description,
@@ -71,13 +117,21 @@ export default class CreateLesson extends Component {
       <>
         <div className="card1 card-2">
           <form onSubmit={this.classCreate} style={{ margin: "20px" }}>
+            <AsyncSelect
+              placeholder="Classe"
+              loadOptions={this.loadOptions}
+              onChange={this.handleOnChange}
+            />
+
+            <br />
+
             <TextField
               id="cadeira"
               fullWidth
               margin="normal"
               variant="outlined"
               type="text"
-              label="Class Name"
+              label="Curricular Unit"
               name="title"
               required
               value={this.state.title}
