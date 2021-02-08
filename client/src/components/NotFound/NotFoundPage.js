@@ -55,8 +55,7 @@ class NotFoundPage extends Component {
             unmountOnExit
           >
             {(state) => (
-              <div
- className="text-center">
+              <div className="text-center">
                 <img src={fourOhFour} />
                 <img
                   src={logo}

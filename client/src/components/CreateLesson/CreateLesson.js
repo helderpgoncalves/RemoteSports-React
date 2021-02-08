@@ -75,18 +75,17 @@ export default class CreateLesson extends Component {
   };
 
   handleOnChange = (tags) => {
-
     const students = tags.students.map(function (item) {
-      return {email: item["label"]};
+      return { email: item["label"] };
     });
 
- //   console.log(students);
-    
+    //   console.log(students);
+
     this.setState({
       attendees: [...this.state.attendees, students],
     });
 
-  //  console.log(this.state.attendees)
+    //  console.log(this.state.attendees)
   };
 
   handleChange = (event) => {
