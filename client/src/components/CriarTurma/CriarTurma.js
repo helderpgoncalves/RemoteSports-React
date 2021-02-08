@@ -42,7 +42,7 @@ export default class ICalendar extends Component {
 
     this.openModal();
 
-    toast.success(`🧑🏼‍🏫 Class Schedule Create with Success!`, {
+    toast.success(`🧑🏼‍🏫 Class Schedule Created with Success!`, {
       position: "top-right",
       autoClose: 7000,
       hideProgressBar: true,
@@ -110,7 +110,7 @@ export default class ICalendar extends Component {
             onClickAway={() => this.closeModal()}
           >
             <div>
-              <h2>Success Creating the Class</h2>
+              <h2>Successfuly created the class!</h2>
               <img style={{ width: "50%" }} src={iCalendar} alt="iCalendar" />
               <ICalendarLink event={this.state}>
                 Export to iCalendar

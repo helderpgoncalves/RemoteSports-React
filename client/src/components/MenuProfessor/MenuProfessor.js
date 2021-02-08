@@ -92,7 +92,7 @@ class MenuProfessor extends Component {
               name: turma.nameClass.toUpperCase(),
             })
             .then(function () {
-              toast.success(`🤪 Excellent! You create new class!`, {
+              toast.success(`🤪 Excellent! You created a new class!`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: true,

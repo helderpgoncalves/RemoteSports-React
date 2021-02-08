@@ -57,8 +57,8 @@ const ProfileSettings = ({ history }) => {
     <>
       <div className="text-center pt-5">
         <img style={{ width: "40%" }} id="myimg" src={profile} alt="profile" />
-        <h1>OLÁ</h1>
-        <h1>Ola eu sou o {user.name}</h1>
+        <h1>HELLO</h1>
+        <h1>Hello my name is {user.name}</h1>
       </div>
     </>
   );

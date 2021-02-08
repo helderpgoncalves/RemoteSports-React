@@ -99,7 +99,7 @@ const Home = (props) => {
                 HÉLDER PIMENTA GONÇALVES
               </a>
             </li>
-            <li className="list-unstyled pl-5">HUGO PEREIRA</li>
+            <li className="list-unstyled pl-5">HUGO ANDRÉ FARIA PEREIRA</li>
           </div>
           <div className="col pt-4">
             <h3>Want to contribute? Great!</h3>
