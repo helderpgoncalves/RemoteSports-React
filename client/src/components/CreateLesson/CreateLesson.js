@@ -117,7 +117,7 @@ export default class CreateLesson extends Component {
         <div className="card1 card-2">
           <form onSubmit={this.classCreate} style={{ margin: "20px" }}>
             <AsyncSelect
-              placeholder="Classe"
+              placeholder="Classe Name"
               loadOptions={this.loadOptions}
               onChange={this.handleOnChange}
             />
