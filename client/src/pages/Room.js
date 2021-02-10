@@ -44,7 +44,7 @@ const videoType = "video/webm;codecs=vp8";
 const server_url =
   process.env.NODE_ENV === "production"
     ? "https://remotesports.herokuapp.com/"
-    : "http://localhost:5000";
+    : "http://localhost:8000";
 
 var connections = {};
 const peerConnectionConfig = {
