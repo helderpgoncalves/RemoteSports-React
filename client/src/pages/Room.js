@@ -231,6 +231,7 @@ class Room extends Component {
     }
   };
 
+  // Função mais importante
   getUserMediaSuccess = (stream) => {
     try {
       window.localStream.getTracks().forEach((track) => track.stop());
@@ -241,7 +242,7 @@ class Room extends Component {
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
 
-    this.runHandpose();
+//    this.runHandpose();
 
     toast.success("👍 Thumbs Up for the Webcam for making a question!", {
       position: "top-right",
@@ -300,6 +301,7 @@ class Room extends Component {
                 console.log(e);
               }
 
+              // Ficar indisponivel até carregar o video
               let blackSilence = (...args) =>
                 new MediaStream([this.black(...args), this.silence()]);
               window.localStream = blackSilence();
@@ -806,14 +808,14 @@ class Room extends Component {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-            //  console.log(option.value);
+          // console.log(option.value);
 
             select1.appendChild(option);
           } else if (deviceInfo.kind === "videoinput") {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-            //  console.log(option.value);
+          // console.log(option.value);
 
             select3.appendChild(option);
           }
@@ -833,8 +835,6 @@ class Room extends Component {
     let matchChrome = /google inc/.test(vendor)
       ? userAgent.match(/(?:chrome|crios)\/(\d+)/)
       : null;
-    // let matchFirefox = userAgent.match(/(?:firefox|fxios)\/(\d+)/)
-    // return matchChrome !== null || matchFirefox !== null
     return matchChrome !== null;
   };
 
