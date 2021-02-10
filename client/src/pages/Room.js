@@ -7,8 +7,8 @@ import VideocamIcon from "@material-ui/icons/Videocam";
 import VideocamOffIcon from "@material-ui/icons/VideocamOff";
 import MicIcon from "@material-ui/icons/Mic";
 import MicOffIcon from "@material-ui/icons/MicOff";
-import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import StopIcon from "@material-ui/icons/Stop";
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
+import StopIcon from '@material-ui/icons/Stop';
 import ScreenShareIcon from "@material-ui/icons/ScreenShare";
 import StopScreenShareIcon from "@material-ui/icons/StopScreenShare";
 import CallEndIcon from "@material-ui/icons/CallEnd";
@@ -22,10 +22,6 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
 
-// mimeType - The mimeType read-only property returns the MIME
-// media type that was specified when creating the
-// MediaRecorder object,
-const videoType = "video/webm;codecs=vp8";
 
 const server_url =
   process.env.NODE_ENV === "production"
@@ -43,6 +39,8 @@ var elms = 0;
 class Room extends Component {
   constructor(props) {
     super(props);
+
+    this.enumerateDevicesFunction();
 
     this.localVideoref = React.createRef();
 
@@ -62,8 +60,6 @@ class Room extends Component {
       newmessages: 0,
       askForUsername: true,
       username: "",
-      videos: [],
-      recording: false,
     };
     connections = {};
 
@@ -147,22 +143,8 @@ class Room extends Component {
       console.log(e);
     }
 
-    console.log(stream);
-
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
-
-    this.mediaRecorder = new MediaRecorder(stream, {
-      mimeType: videoType,
-    });
-    // init data storage for video chunks
-    this.chunks = [];
-    // listen for data from media recorder
-    this.mediaRecorder.ondataavailable = (e) => {
-      if (e.data && e.data.size > 0) {
-        this.chunks.push(e.data);
-      }
-    };
 
     for (let id in connections) {
       if (id === socketId) continue;
@@ -240,66 +222,6 @@ class Room extends Component {
       }
     }
   };
-
-  startRecording(e) {
-    e.preventDefault();
-    // wipe old data chunks
-    this.chunks = [];
-    // start recorder with 10ms buffer
-    this.mediaRecorder.start(100);
-
-    toast("🎬 You start recording!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-    // say that we're recording
-    this.setState({ recording: true });
-  }
-
-  stopRecording(e) {
-    e.preventDefault();
-    // stop the recorder
-    this.mediaRecorder.stop();
-
-    toast.dark("🛑 You stop recording!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-
-    // say that we're not recording
-    this.setState({ recording: false });
-    // save the video to memory
-    this.saveVideo();
-  }
-
-  saveVideo() {
-    // convert saved chunks to blob
-    const blob = new Blob(this.chunks, { type: videoType });
-
-    // generate video url from blob
-    const videoURL = window.URL.createObjectURL(blob);
-
-    // append videoURL to list of saved videos for rendering
-    const videos = this.state.videos.concat([videoURL]);
-    this.setState({ videos });
-  }
-
-  deleteVideo(videoURL) {
-    // filter out current videoURL from the list of saved videos
-    const videos = this.state.videos.filter((v) => v !== videoURL);
-    this.setState({ videos });
-  }
 
   getDislayMediaSuccess = (stream) => {
     try {
@@ -407,8 +329,8 @@ class Room extends Component {
     let height = String(100 / elms) + "%";
     let width = "";
     if (elms === 0 || elms === 1) {
-      width = "90%";
-      height = "90%";
+      width = "100%";
+      height = "100%";
     } else if (elms === 2) {
       width = "45%";
       height = "100%";
@@ -421,8 +343,6 @@ class Room extends Component {
 
     let videos = main.querySelectorAll("video");
     for (let a = 0; a < videos.length; ++a) {
-      videos[a].style.setProperty("borderColor", "#001529");
-      videos[a].style.setProperty("bordeRadius", "50px");
       videos[a].style.minWidth = minWidth;
       videos[a].style.minHeight = minHeight;
       videos[a].style.setProperty("width", width);
@@ -545,6 +465,9 @@ class Room extends Component {
     });
   };
 
+  startRecord = () => {
+    alert('Olá')
+  }
   silence = () => {
     let ctx = new AudioContext();
     let oscillator = ctx.createOscillator();
@@ -601,10 +524,6 @@ class Room extends Component {
   };
 
   handleUsername = (e) => this.setState({ username: e.target.value });
-
-  startRecord = () => {
-    socket.emit("message", this.state.files);
-  };
 
   sendMessage = () => {
     socket.emit("chat-message", this.state.message, this.state.username);
@@ -686,8 +605,6 @@ class Room extends Component {
   };
 
   render() {
-    const { recording, videos } = this.state;
-
     if (this.isChrome() === false) {
       return (
         <div
@@ -711,7 +628,8 @@ class Room extends Component {
       <div>
         {this.state.askForUsername === true ? (
           <div className="card1 card-2">
-            <div className="text-center">
+            <div
+            className="text-center">
               <Typography component="h1" variant="h5">
                 Set your username
               </Typography>
@@ -745,9 +663,8 @@ class Room extends Component {
                 autoPlay
                 muted
                 style={{
-                  borderRadius: "50px",
                   borderStyle: "solid",
-                  borderColor: "#001529",
+                  borderColor: "#bdbdbd",
                   objectFit: "fill",
                   width: "100%",
                   height: "30%",
@@ -756,202 +673,172 @@ class Room extends Component {
             </div>
           </div>
         ) : (
-          <>
-            <div>
-              {videos.map((videoURL, i) => (
-                <div key={`video_${i}`}>
-                  <video style={{ width: 200 }} src={videoURL} autoPlay loop />
-                  <div>
-                    <button onClick={() => this.deleteVideo(videoURL)}>
-                      Delete
-                    </button>
-                    <a target="_blank" href={videoURL}>
-                      Download
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{ background: "#ecf0f3" }}>
-              <div
-                className="btn-down"
-                style={{
-                  backgroundColor: "#001529",
-                  color: "#001529",
-                  textAlign: "center",
-                }}
+          <div>
+            <div
+              className="btn-down"
+              style={{
+                backgroundColor: "whitesmoke",
+                color: "whitesmoke",
+                textAlign: "center",
+              }}
+            >
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={this.handleVideo}
               >
+                {this.state.video === true ? (
+                  <VideocamIcon />
+                ) : (
+                  <VideocamOffIcon />
+                )}
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#f44336" }}
+                onClick={this.handleEndCall}
+              >
+                <CallEndIcon />
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={this.handleAudio}
+              >
+                {this.state.audio === true ? <MicIcon /> : <MicOffIcon />}
+              </IconButton>
+
+              <IconButton
+                style={{ color: "#424242" }}
+                onClick={this.startRecord}
+              >
+                <PlayCircleFilledWhiteIcon />
+              </IconButton>
+
+              {this.state.screenAvailable === true ? (
                 <IconButton
-                  style={{ color: "white" }}
-                  onClick={this.handleVideo}
+                  style={{ color: "#424242" }}
+                  onClick={this.handleScreen}
                 >
-                  {this.state.video === true ? (
-                    <VideocamIcon />
+                  {this.state.screen === true ? (
+                    <ScreenShareIcon />
                   ) : (
-                    <VideocamOffIcon />
+                    <StopScreenShareIcon />
                   )}
                 </IconButton>
+              ) : null}
 
+              <Badge
+                badgeContent={this.state.newmessages}
+                max={999}
+                color="secondary"
+                onClick={this.openChat}
+              >
                 <IconButton
-                  style={{ color: "#f44336" }}
-                  onClick={this.handleEndCall}
-                >
-                  <CallEndIcon />
-                </IconButton>
-
-                <IconButton
-                  style={{ color: "white" }}
-                  onClick={this.handleAudio}
-                >
-                  {this.state.audio === true ? <MicIcon /> : <MicOffIcon />}
-                </IconButton>
-
-                {!recording && (
-                  <IconButton
-                    style={{ color: "white" }}
-                    onClick={(e) => this.startRecording(e)}
-                  >
-                    <PlayCircleFilledWhiteIcon />
-                  </IconButton>
-                )}
-
-                {recording && (
-                  <IconButton
-                    style={{ color: "#f44336" }}
-                    onClick={(e) => this.stopRecording(e)}
-                  >
-                    <StopIcon />
-                  </IconButton>
-                )}
-
-                {this.state.screenAvailable === true ? (
-                  <IconButton
-                    style={{ color: "white" }}
-                    onClick={this.handleScreen}
-                  >
-                    {this.state.screen === true ? (
-                      <ScreenShareIcon />
-                    ) : (
-                      <StopScreenShareIcon />
-                    )}
-                  </IconButton>
-                ) : null}
-
-                <Badge
-                  badgeContent={this.state.newmessages}
-                  max={999}
-                  color="secondary"
+                  style={{ color: "#424242" }}
                   onClick={this.openChat}
                 >
-                  <IconButton
-                    style={{ color: "white" }}
-                    onClick={this.openChat}
-                  >
-                    <ChatIcon />
-                  </IconButton>
-                </Badge>
-              </div>
-
-              <Modal
-                show={this.state.showModal}
-                onHide={this.closeChat}
-                style={{ zIndex: "999999" }}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Chat Room</Modal.Title>
-                </Modal.Header>
-                <Modal.Body
-                  style={{
-                    overflow: "auto",
-                    overflowY: "auto",
-                    height: "400px",
-                    textAlign: "left",
-                  }}
-                >
-                  {this.state.messages.length > 0 ? (
-                    this.state.messages.map((item, index) => (
-                      <div key={index} style={{ textAlign: "left" }}>
-                        <p style={{ wordBreak: "break-all" }}>
-                          <b>{item.sender}</b>: {item.data}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No messages yet</p>
-                  )}
-                </Modal.Body>
-                <Modal.Footer className="div-send-msg">
-                  <Input
-                    placeholder="Message"
-                    value={this.state.message}
-                    onChange={(e) => this.handleMessage(e)}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.sendMessage}
-                  >
-                    Send
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-
-              <div className="container">
-                <div style={{ paddingTop: "20px" }}>
-                  <Input value={window.location.href} disable="true"></Input>
-                  <Button
-                    style={{
-                      backgroundColor: "#3f51b5",
-                      color: "whitesmoke",
-                      marginLeft: "20px",
-                      marginTop: "10px",
-                      width: "120px",
-                      fontSize: "10px",
-                    }}
-                    onClick={this.copyUrl}
-                  >
-                    Copy invite link
-                  </Button>
-                  <br />
-                </div>
-                <div className="pt-4">
-                  <div className="select">
-                    <label for="select1">Audio Source: </label>
-                    <select id="select1" className="pr-3"></select>
-                    <div className="select__arrow"></div>
-                  </div>
-                  <div className="select">
-                    <label for="select3">Video Source: </label>
-                    <select id="select3" className="pr-3"></select>
-                    <div className="select__arrow"></div>
-                    {this.enumerateDevicesFunction()}
-                  </div>
-                </div>
-
-                <Row
-                  id="main"
-                  className="flex-container"
-                  style={{ margin: 0, padding: 0 }}
-                >
-                  <video
-                    id="my-video"
-                    ref={this.localVideoref}
-                    autoPlay
-                    muted
-                    style={{
-                      borderRadius: "50px",
-                      borderStyle: "solid",
-                      borderColor: "#001529",
-                      margin: "10px",
-                      objectFit: "fill",
-                      width: "90%",
-                      height: "90%",
-                    }}
-                  ></video>
-                </Row>
-              </div>
+                  <ChatIcon />
+                </IconButton>
+              </Badge>
             </div>
-          </>
+
+            <Modal
+              show={this.state.showModal}
+              onHide={this.closeChat}
+              style={{ zIndex: "999999" }}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Chat Room</Modal.Title>
+              </Modal.Header>
+              <Modal.Body
+                style={{
+                  overflow: "auto",
+                  overflowY: "auto",
+                  height: "400px",
+                  textAlign: "left",
+                }}
+              >
+                {this.state.messages.length > 0 ? (
+                  this.state.messages.map((item, index) => (
+                    <div key={index} style={{ textAlign: "left" }}>
+                      <p style={{ wordBreak: "break-all" }}>
+                        <b>{item.sender}</b>: {item.data}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No messages yet</p>
+                )}
+              </Modal.Body>
+              <Modal.Footer className="div-send-msg">
+                <Input
+                  placeholder="Message"
+                  value={this.state.message}
+                  onChange={(e) => this.handleMessage(e)}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.sendMessage}
+                >
+                  Send
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            <div className="container">
+              <div style={{ paddingTop: "20px" }}>
+                <Input value={window.location.href} disable="true"></Input>
+                <Button
+                  style={{
+                    backgroundColor: "#3f51b5",
+                    color: "whitesmoke",
+                    marginLeft: "20px",
+                    marginTop: "10px",
+                    width: "120px",
+                    fontSize: "10px",
+                  }}
+                  onClick={this.copyUrl}
+                >
+                  Copy invite link
+                </Button>{" "}
+                <br />
+              </div>
+
+              <div className="pt-4 pb-4">
+                <div>
+                  <label for="select1">Audio Source: </label>
+                  <select id="select1" className="pr-3"></select>
+                </div>
+                <div>
+                  <label for="select3">Video Source: </label>
+                  <select id="select3" className="pr-3"></select>
+                  {this.enumerateDevicesFunction()}
+                </div>
+              </div>
+
+              <Row
+                id="main"
+                className="flex-container"
+                style={{ margin: 0, padding: 0 }}
+              >
+                <video
+                  id="my-video"
+                  ref={this.localVideoref}
+                  autoPlay
+                  muted
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#bdbdbd",
+                    margin: "10px",
+                    objectFit: "fill",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                ></video>
+              </Row>
+            </div>
+          </div>
         )}
       </div>
     );
