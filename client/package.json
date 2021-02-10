@@ -18,7 +18,6 @@
     "firebase": "^8.0.2",
     "googleapis": "^39.2.0",
     "moment": "^2.29.1",
-    "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-awesome-modal": "^2.0.5",
     "react-big-calendar": "^0.30.0",

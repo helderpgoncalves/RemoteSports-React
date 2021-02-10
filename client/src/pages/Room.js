@@ -16,25 +16,11 @@ import ChatIcon from "@material-ui/icons/Chat";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { message } from "antd";
-import SaveIcon from "@material-ui/icons/Save";
-import DeleteIcon from "@material-ui/icons/Delete";
 import "antd/dist/antd.css";
 import { Row } from "reactstrap";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../css/Room.css";
-import BlurOnIcon from "@material-ui/icons/BlurOn";
-import BlurOffIcon from "@material-ui/icons/BlurOff";
-import SendIcon from "@material-ui/icons/Send";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-
-import * as handpose from "@tensorflow-models/handpose";
-import * as tf from "@tensorflow/tfjs";
-import * as bodyPix from "@tensorflow-models/body-pix";
-import { drawHand } from "../utilities"; // Canvas Draws on the Hand
-import * as fp from "fingerpose";
-import thumbs_up from "../assets/thumbs_up.png";
-import victory from "../assets/victory.png";
 
 // mimeType - The mimeType read-only property returns the MIME
 // media type that was specified when creating the
@@ -73,93 +59,16 @@ class Room extends Component {
       screenAvailable: false,
       messages: [],
       message: "",
-      notification: "",
       newmessages: 0,
       askForUsername: true,
       username: "",
       videos: [],
       recording: false,
-      blur: false,
-      net: null,
-      emoji: null,
-      images: {
-        thumbs_up: thumbs_up,
-        victory: victory,
-      },
     };
     connections = {};
 
     this.getPermissions();
   }
-
-  runHandpose = async () => {
-    const net = await handpose.load();
-    console.log("Handpose model loaded.");
-
-    setInterval(() => {
-      this.detect(net);
-    }, 100);
-  };
-
-  detect = async (net) => {
-    // Check data is available
-    if (
-      typeof this.localVideoref.current !== "undefined" &&
-      this.localVideoref.current !== null
-    ) {
-      const videoWidth = document.getElementById("my-video").style.width;
-      const videoHeight = document.getElementById("my-video").style.height;
-
-      // Get Video Properties
-      const video = document.getElementById("my-video");
-
-      const vidStyleData = video.getBoundingClientRect();
-
-      //  const videoWidth = this.localVideoref.current.video.videoWidth;
-      //  const videoHeight = this.localVideoref.current.video.videoHeight;
-
-      // Set video width
-      // this.localVideoref.current.video.width = videoWidth;
-      // this.localVideoref.current.video.height = videoHeight;
-
-      // Set canvas height and width
-      var canvas = document.getElementById("canvas");
-
-      canvas.style.setProperty("width", videoWidth);
-      canvas.style.setProperty("height", videoHeight);
-
-      // Make Detections
-      const hand = await net.estimateHands(video);
-      //  console.log(hand);
-
-      // add "✌🏻" and "👍" as sample gestures
-      if (hand.length > 0) {
-        const GE = new fp.GestureEstimator([
-          fp.Gestures.VictoryGesture,
-          fp.Gestures.ThumbsUpGesture,
-        ]);
-        const gesture = await GE.estimate(hand[0].landmarks, 7);
-        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          // console.log(gesture.gestures);
-
-          const confidence = gesture.gestures.map(
-            (prediction) => prediction.confidence
-          );
-          const maxConfidence = confidence.indexOf(
-            Math.max.apply(null, confidence)
-          );
-          // console.log(gesture.gestures[maxConfidence].name);
-          this.setState({
-            emoji: gesture.gestures[maxConfidence].name,
-          });
-        }
-      }
-
-      // Draw mesh
-      // const ctx = this.canvasRef.current.getContext("2d");
-      // drawHand(hand, ctx);
-    }
-  };
 
   getPermissions = async () => {
     try {
@@ -231,7 +140,6 @@ class Room extends Component {
     }
   };
 
-  // Função mais importante
   getUserMediaSuccess = (stream) => {
     try {
       window.localStream.getTracks().forEach((track) => track.stop());
@@ -239,20 +147,10 @@ class Room extends Component {
       console.log(e);
     }
 
+    console.log(stream);
+
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
-
-//    this.runHandpose();
-
-    toast.success("👍 Thumbs Up for the Webcam for making a question!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
 
     this.mediaRecorder = new MediaRecorder(stream, {
       mimeType: videoType,
@@ -301,7 +199,6 @@ class Room extends Component {
                 console.log(e);
               }
 
-              // Ficar indisponivel até carregar o video
               let blackSilence = (...args) =>
                 new MediaStream([this.black(...args), this.silence()]);
               window.localStream = blackSilence();
@@ -344,44 +241,6 @@ class Room extends Component {
     }
   };
 
-  startBlur(e) {
-    this.setState({
-      blur: true,
-    });
-
-    //  this.loadBodyPix();
-  }
-
-  loadBodyPix = async () => {
-    const videoElement = document.getElementById("my-video");
-
-    const net = await bodyPix.load();
-
-    // Convert the personSegmentation into a mask to darken the background.
-    const segmentation = net.segmentPerson(videoElement);
-
-    const backgroundBlurAmount = 6;
-    const edgeBlurAmount = 2;
-    const flipHorizontal = true;
-
-    const canvas = document.getElementById("canvas");
-
-    bodyPix.drawBokehEffect(
-      canvas,
-      videoElement,
-      segmentation,
-      backgroundBlurAmount,
-      edgeBlurAmount,
-      flipHorizontal
-    );
-  };
-
-  stopBlur(e) {
-    this.setState({
-      blur: false,
-    });
-  }
-
   startRecording(e) {
     e.preventDefault();
     // wipe old data chunks
@@ -391,8 +250,8 @@ class Room extends Component {
 
     toast("🎬 You start recording!", {
       position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
+      autoClose: 5000,
+      hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: true,
@@ -410,8 +269,8 @@ class Room extends Component {
 
     toast.dark("🛑 You stop recording!", {
       position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
+      autoClose: 5000,
+      hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
       draggable: true,
@@ -426,7 +285,7 @@ class Room extends Component {
 
   saveVideo() {
     // convert saved chunks to blob
-    const blob = new Blob(this.chunks, { type: "video/mp4" });
+    const blob = new Blob(this.chunks, { type: videoType });
 
     // generate video url from blob
     const videoURL = window.URL.createObjectURL(blob);
@@ -584,8 +443,6 @@ class Room extends Component {
 
       socket.on("chat-message", this.addMessage);
 
-      socket.on("notification", this.addNotification);
-
       socket.on("user-left", (id) => {
         let video = document.querySelector(`[data-socket="${id}"]`);
         if (video !== null) {
@@ -620,7 +477,7 @@ class Room extends Component {
               `[data-socket="${socketListId}"]`
             );
             if (searchVidep !== null) {
-              // if i don't do this check it make an empty square
+              // if i don't do this check it make an empyt square
               searchVidep.srcObject = event.stream;
             } else {
               elms = clients.length;
@@ -717,7 +574,7 @@ class Room extends Component {
     try {
       let tracks = this.localVideoref.current.srcObject.getTracks();
       tracks.forEach((track) => track.stop());
-      toast.error("You leave the Meeting! 👋", {
+      toast.error("You leave the Meeting!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -734,10 +591,6 @@ class Room extends Component {
   closeChat = () => this.setState({ showModal: false });
   handleMessage = (e) => this.setState({ message: e.target.value });
 
-  askQuestion = () => {
-    socket.emit("notification", this.state.username);
-  };
-
   addMessage = (data, sender, socketIdSender) => {
     this.setState((prevState) => ({
       messages: [...prevState.messages, { sender: sender, data: data }],
@@ -747,19 +600,11 @@ class Room extends Component {
     }
   };
 
-  addNotification = (sender) => {
-    toast.dark(`❓ ${sender} wants to ask a question!`, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   handleUsername = (e) => this.setState({ username: e.target.value });
+
+  startRecord = () => {
+    socket.emit("message", this.state.files);
+  };
 
   sendMessage = () => {
     socket.emit("chat-message", this.state.message, this.state.username);
@@ -808,14 +653,14 @@ class Room extends Component {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-          // console.log(option.value);
+            //  console.log(option.value);
 
             select1.appendChild(option);
           } else if (deviceInfo.kind === "videoinput") {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-          // console.log(option.value);
+            //  console.log(option.value);
 
             select3.appendChild(option);
           }
@@ -835,11 +680,13 @@ class Room extends Component {
     let matchChrome = /google inc/.test(vendor)
       ? userAgent.match(/(?:chrome|crios)\/(\d+)/)
       : null;
+    // let matchFirefox = userAgent.match(/(?:firefox|fxios)\/(\d+)/)
+    // return matchChrome !== null || matchFirefox !== null
     return matchChrome !== null;
   };
 
   render() {
-    const { recording, videos, blur, emoji } = this.state;
+    const { recording, videos } = this.state;
 
     if (this.isChrome() === false) {
       return (
@@ -910,33 +757,17 @@ class Room extends Component {
           </div>
         ) : (
           <>
-            <div className="text-center" style={{ background: "#969696" }}>
+            <div>
               {videos.map((videoURL, i) => (
-                <div className="pt-3 pb-3" key={`video_${i}`}>
-                  <video style={{ width: 200 }} src={videoURL} />
+                <div key={`video_${i}`}>
+                  <video style={{ width: 200 }} src={videoURL} autoPlay loop />
                   <div>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<DeleteIcon />}
-                      onClick={() => this.deleteVideo(videoURL)}
-                    >
+                    <button onClick={() => this.deleteVideo(videoURL)}>
                       Delete
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      startIcon={<SaveIcon />}
-                    >
-                      <a
-                        style={{ textDecoration: "none" }}
-                        className="text-white"
-                        target="_blank"
-                        href={videoURL}
-                      >
-                        Download
-                      </a>
-                    </Button>
+                    </button>
+                    <a target="_blank" href={videoURL}>
+                      Download
+                    </a>
                   </div>
                 </div>
               ))}
@@ -993,24 +824,6 @@ class Room extends Component {
                   </IconButton>
                 )}
 
-                {!blur && (
-                  <IconButton
-                    style={{ color: "white" }}
-                    onClick={(e) => this.startBlur(e)}
-                  >
-                    <BlurOnIcon />
-                  </IconButton>
-                )}
-
-                {blur && (
-                  <IconButton
-                    style={{ color: "#f44336" }}
-                    onClick={(e) => this.stopBlur(e)}
-                  >
-                    <BlurOffIcon />
-                  </IconButton>
-                )}
-
                 {this.state.screenAvailable === true ? (
                   <IconButton
                     style={{ color: "white" }}
@@ -1037,13 +850,6 @@ class Room extends Component {
                     <ChatIcon />
                   </IconButton>
                 </Badge>
-
-                <IconButton
-                  style={{ color: "white" }}
-                  onClick={this.askQuestion}
-                >
-                  <LiveHelpIcon />
-                </IconButton>
               </div>
 
               <Modal
@@ -1084,7 +890,6 @@ class Room extends Component {
                     variant="contained"
                     color="primary"
                     onClick={this.sendMessage}
-                    startIcon={<SendIcon />}
                   >
                     Send
                   </Button>
@@ -1112,20 +917,12 @@ class Room extends Component {
                 <div className="pt-4">
                   <div className="select">
                     <label for="select1">Audio Source: </label>
-                    <select
-                      value={this.state.video}
-                      id="select1"
-                      className="pr-3"
-                    ></select>
+                    <select id="select1" className="pr-3"></select>
                     <div className="select__arrow"></div>
                   </div>
                   <div className="select">
                     <label for="select3">Video Source: </label>
-                    <select
-                      value={this.state.audio}
-                      id="select3"
-                      className="pr-3"
-                    ></select>
+                    <select id="select3" className="pr-3"></select>
                     <div className="select__arrow"></div>
                     {this.enumerateDevicesFunction()}
                   </div>
@@ -1151,36 +948,9 @@ class Room extends Component {
                       height: "90%",
                     }}
                   ></video>
-                  {this.state.video && (
-                    <canvas
-                      id="canvas"
-                      ref={this.canvasRef}
-                      style={{
-                        position: "absolute",
-                        objectFit: "fill",
-                        backgroundColor: "transparent",
-                      }}
-                    />
-                  )}
                 </Row>
               </div>
             </div>
-            {emoji !== null ? (
-              <img
-                src={this.state.images[emoji]}
-                style={{
-                  position: "absolute",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  right: "32px",
-                  top: "64px",
-                  textAlign: "center",
-                  height: 100,
-                }}
-              />
-            ) : (
-              ""
-            )}
           </>
         )}
       </div>
