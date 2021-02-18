@@ -12,7 +12,7 @@ import Room from "./pages/Room";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ProfileSettings from "./pages/ProfileSettings";
 import NotFoundPage from "./components/NotFound/NotFoundPage";
-import GetGoogleCalendar from "./components/Calendar/GetGoogleCalendar"
+import GetGoogleCalendar from "./components/Calendar/GetGoogleCalendar";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

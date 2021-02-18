@@ -44,7 +44,7 @@ const videoType = "video/webm;codecs=vp8";
 const server_url =
   process.env.NODE_ENV === "production"
     ? "https://remotesports.herokuapp.com/"
-    : "http://localhost:8000";
+    : "http://localhost:5000";
 
 var connections = {};
 const peerConnectionConfig = {
@@ -242,7 +242,7 @@ class Room extends Component {
     window.localStream = stream;
     this.localVideoref.current.srcObject = stream;
 
-//    this.runHandpose();
+    //    this.runHandpose();
 
     toast.success("👍 Thumbs Up for the Webcam for making a question!", {
       position: "top-right",
@@ -808,14 +808,14 @@ class Room extends Component {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-          // console.log(option.value);
+            // console.log(option.value);
 
             select1.appendChild(option);
           } else if (deviceInfo.kind === "videoinput") {
             option.label = deviceInfo.label;
             option.value = deviceInfo.deviceId;
 
-          // console.log(option.value);
+            // console.log(option.value);
 
             select3.appendChild(option);
           }
@@ -1189,4 +1189,3 @@ class Room extends Component {
 }
 
 export default Room;
-
