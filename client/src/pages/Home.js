@@ -35,7 +35,7 @@ const Home = (props) => {
                 </div>
                 <h3>100% Free Account</h3>
                 <p>
-                  Create an free account and start your very own meeting.
+                  Create a free account and start your very own meeting.
                   Connect to multiple people.
                 </p>
               </div>
