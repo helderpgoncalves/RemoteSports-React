@@ -32,6 +32,30 @@ RemoteSports provides you with a reliable and secure connection for your online 
 - [Heroku](https://www.heroku.com/)
 - [TensorFlow.js](https://www.tensorflow.org/js)
 
+## Architecture
+
+<div align="center">
+  <a><img src="client/src/assets/architecture.png" alt="RemoteSports" width="500"></a>
+</div>
+
+## The Project 
+
+<div align="center">
+  
+  ### Video Room 
+  
+  <a><img src="client/src/assets/videoroom.png" alt="RemoteSports" width="500"></a>
+  
+  ### TensorFlow.js Integration - Gesture Handler
+  
+  <a><img src="client/src/assets/ai.png" alt="RemoteSports" width="500"></a>
+  <a><img src="client/src/assets/ai1.png" alt="RemoteSports" width="500"></a>
+  
+  ### Google Calendar & iCalendar Integration
+  
+  <a><img src="client/src/assets/googlecalendar.png" alt="RemoteSports" width="500"></a>
+</div>
+
 ##  Features
 
 * Our video rooms allow the users to share their camera, screen and microphone providing you the tools to successfully have your classes online
